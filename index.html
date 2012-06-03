@@ -1,0 +1,176 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Blam.js by darthapo</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Blam.js</h1>
+        <p>Templates are just code.</p>
+        <p class="view"><a href="https://github.com/darthapo/blam.js">View the Project on GitHub <small>darthapo/blam.js</small></a></p>
+        <ul>
+          <li><a href="https://github.com/darthapo/blam.js/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/darthapo/blam.js/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/darthapo/blam.js">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>blam.js</h1>
+
+<p><strong>Simple, Tiny, Fast</strong> (enough)</p>
+
+<p>Example usage (in CoffeeScript):</p>
+
+<div class="highlight">
+<pre><span class="nx">blam</span><span class="p">(</span><span class="o">-&gt;</span>
+  <span class="nx">html</span><span class="p">(</span>
+    <span class="nx">head</span><span class="p">(</span>
+      <span class="nx">title</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">)</span>
+      <span class="nx">script</span><span class="p">(</span> <span class="nx">src</span><span class="o">:</span><span class="s">"/my-script.js"</span> <span class="p">)</span>
+      <span class="nx">link</span><span class="p">(</span>
+        <span class="nx">rel</span><span class="o">:</span><span class="s">"stylesheet"</span>
+        <span class="nx">type</span><span class="o">:</span><span class="s">"text/css"</span>
+        <span class="nx">href</span><span class="o">:</span><span class="s">"/my-styles.css"</span>
+      <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="nx">body</span><span class="p">(</span>
+      <span class="nx">article</span><span class="p">(</span> <span class="nx">id</span><span class="o">:</span><span class="s">"main"</span><span class="p">,</span>
+        <span class="nx">section</span><span class="p">(</span> <span class="k">class</span><span class="o">:</span><span class="s">'content'</span><span class="p">,</span>
+          <span class="nx">p</span><span class="p">(</span><span class="s">"Loading..."</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="nx">aside</span><span class="p">(</span> <span class="k">class</span><span class="o">:</span><span class="s">'sidebar'</span> <span class="p">)</span>
+      <span class="p">)</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+<span class="p">)</span>
+</pre>
+</div>
+
+
+<p>In JavaScript:</p>
+
+<div class="highlight">
+<pre><span class="nx">blam</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+  <span class="nx">html</span><span class="p">(</span>
+    <span class="nx">head</span><span class="p">(</span>
+      <span class="nx">title</span><span class="p">(</span><span class="s2">"Hello"</span><span class="p">),</span> 
+      <span class="nx">script</span><span class="p">({</span> <span class="nx">src</span><span class="o">:</span> <span class="s2">"/my-script.js"</span> <span class="p">}),</span>
+      <span class="nx">link</span><span class="p">({</span> <span class="nx">rel</span><span class="o">:</span> <span class="s2">"stylesheet"</span><span class="p">,</span> <span class="nx">type</span><span class="o">:</span> <span class="s2">"text/css"</span><span class="p">,</span> <span class="nx">href</span><span class="o">:</span> <span class="s2">"/my-styles.css"</span> <span class="p">})),</span> 
+      <span class="nx">body</span><span class="p">(</span>
+        <span class="nx">article</span><span class="p">({</span> <span class="nx">id</span><span class="o">:</span> <span class="s2">"main"</span> <span class="p">},</span> 
+          <span class="nx">section</span><span class="p">({</span> <span class="s2">"class"</span><span class="o">:</span> <span class="s1">'content'</span> <span class="p">},</span> 
+            <span class="nx">p</span><span class="p">(</span><span class="s2">"Loading..."</span><span class="p">)</span>
+          <span class="p">),</span> 
+        <span class="nx">aside</span><span class="p">({</span> <span class="s2">"class"</span><span class="o">:</span> <span class="s1">'sidebar'</span><span class="p">})</span>
+      <span class="p">)</span>
+    <span class="p">)</span>
+  <span class="p">)</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<h2>Notes</h2>
+
+<p>Clocks in at ~1K minified and gzipped.</p>
+
+<p>Supports adding custom tags:</p>
+
+<div class="highlight">
+<pre><span class="nx">blam</span><span class="p">.</span><span class="nx">define</span> <span class="s">'jqmpage'</span><span class="p">,</span> <span class="nf">(args...)-&gt;</span>
+  <span class="nx">div</span> <span class="s">'data-role'</span><span class="o">:</span><span class="s">'page'</span><span class="p">,</span>
+    <span class="nx">div</span> <span class="s">'data-role'</span><span class="o">:</span><span class="s">'header'</span><span class="p">,</span> <span class="nx">args</span><span class="p">...</span>
+</pre>
+</div>
+
+
+<p>Passes initial arguments on to markup block:</p>
+
+<div class="highlight">
+<pre><span class="nx">blam</span> <span class="nx">name</span><span class="o">:</span><span class="s">'Matt'</span><span class="p">,</span> <span class="nf">(user)-&gt;</span>
+  <span class="nx">div</span><span class="p">(</span> <span class="nx">id</span><span class="o">:</span><span class="s">'user-block'</span><span class="p">,</span>
+    <span class="nx">p</span><span class="p">(</span><span class="s">"Hello "</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span>
+  <span class="p">)</span>
+</pre>
+</div>
+
+
+<p>Can be "compiled" into an executable function (good for often repeated bits of code):</p>
+
+<div class="highlight">
+<pre><span class="nv">template= </span><span class="nx">blam</span><span class="p">.</span><span class="nx">compile</span> <span class="nf">(user)-&gt;</span>
+  <span class="nx">div</span><span class="p">(</span> <span class="nx">id</span><span class="o">:</span><span class="s">'user-block'</span><span class="p">,</span>
+    <span class="nx">p</span><span class="p">(</span><span class="s">"Hello "</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span>
+  <span class="p">)</span>
+
+<span class="nx">html</span><span class="o">+=</span> <span class="nx">template</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="k">for</span> <span class="nx">user</span> <span class="k">in</span> <span class="nx">all_users</span>
+</pre>
+</div>
+
+
+<h2>BackBone Example</h2>
+
+<div class="highlight">
+<pre><span class="k">class</span> <span class="nx">TweetListView</span> <span class="k">extends</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span>
+  <span class="nv">initialize: </span><span class="o">-&gt;</span>
+    <span class="c1"># bind to @collection changes to add/remove TweetViews</span>
+
+  <span class="nv">render: </span><span class="o">-&gt;</span>
+    <span class="nx">@el</span><span class="p">.</span><span class="nx">append</span> <span class="nx">blam</span><span class="p">(</span><span class="nx">@</span><span class="p">,</span> <span class="nf">(view)-&gt;</span>
+      <span class="nx">div</span><span class="p">(</span> <span class="k">class</span><span class="o">:</span><span class="s">"tweet-list"</span><span class="p">,</span> <span class="o">-&gt;</span> 
+        <span class="c1"># probably wouldn't actually need a root node, good for example though</span>
+        <span class="nx">view</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">each</span> <span class="nf">(tweet)-&gt;</span> 
+          <span class="nv">tweetView= </span><span class="k">new</span> <span class="nx">TweetView</span><span class="p">(</span> <span class="nx">model</span><span class="o">:</span><span class="nx">tweet</span> <span class="p">)</span>
+          <span class="nx">tweetView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">el</span>
+      <span class="p">)</span>
+    <span class="p">)</span>
+
+<span class="k">class</span> <span class="nx">TweetView</span> <span class="k">extends</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span>
+  <span class="nv">className: </span><span class="s">'tweet'</span>
+
+  <span class="nv">events:</span>
+    <span class="s">"click .reply"</span><span class="o">:</span> <span class="s">"doReply"</span>
+
+  <span class="nv">doReply: </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="o">=&gt;</span>
+    <span class="nx">alert</span> <span class="s">"Do reply code here..."</span>
+
+  <span class="nv">render: </span><span class="o">-&gt;</span>
+    <span class="nx">@el</span><span class="p">.</span><span class="nx">attr</span> <span class="s">'id'</span><span class="p">,</span> <span class="nx">@model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span>
+    <span class="nx">@el</span><span class="p">.</span><span class="nx">append</span> <span class="nx">blam</span><span class="p">(</span><span class="nx">@model</span><span class="p">,</span> <span class="nf">(model)-&gt;</span>
+      <span class="nx">div</span><span class="p">(</span> <span class="k">class</span><span class="o">:</span><span class="s">"body"</span><span class="p">,</span>
+        <span class="nx">div</span><span class="p">(</span> <span class="k">class</span><span class="o">:</span><span class="s">"actions"</span><span class="p">,</span>
+          <span class="nx">button</span><span class="p">(</span> <span class="k">class</span><span class="o">:</span><span class="s">"reply"</span><span class="p">,</span> <span class="s">"Reply..."</span> <span class="p">)</span>
+          <span class="nx">button</span><span class="p">(</span> <span class="k">class</span><span class="o">:</span><span class="s">"retweet"</span><span class="p">,</span> <span class="s">"Retweet..."</span> <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s">'body'</span><span class="p">)</span>
+      <span class="p">)</span>
+    <span class="p">)</span>
+</pre>
+</div>
+
+
+<h2>Aren't <code>eval</code> and <code>with</code> Evil?</h2>
+
+<p>No! They're just misunderstood. This is exactly why they are useful as a language feature. They allow excellent DSL generation.</p>
+
+<p>That said, it <em>is</em> a good rule of thumb that if you don't know when is best to use them; don't.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/darthapo">darthapo</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
