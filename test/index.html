@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Blam! - Mocha Tests</title>
+    <link rel="stylesheet" href="lib/mocha.css" />
+    <script src="lib/chai.js"></script>
+    <script src="lib/mocha.js"></script>
+    <script>mocha.setup('bdd')</script>
+    <script src="../blam.js"></script>
+    <!-- <script src="../blam.min.js"></script> -->
+    <script src="test.main.js"></script>
+    <script src="test.compile.js"></script>
+    <script src="test.define.js"></script>
+    <script src="test.noconflict.js"></script>
+  </head>
+  <body>
+    <div id="mocha"></div>
+  </body>
+</html>
+<script>
+
+  window.onload= function() {
+    chai.Assertion.includeStack = true;
+    window.expect= chai.expect;
+    runner=mocha.run();
+    // runner.ignoreLeaks= true;
+    runner.globals(['blam', 'chai', 'expect', 'mocha', 'describe', 'it', 'runner', '_blam']);
+  }
+  
+</script>
