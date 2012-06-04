@@ -11,6 +11,7 @@
     <script src="test.main.js"></script>
     <script src="test.compile.js"></script>
     <script src="test.define.js"></script>
+    <script src="test.tags.js"></script>
     <script src="test.noconflict.js"></script>
   </head>
   <body>
@@ -23,7 +24,7 @@
     chai.Assertion.includeStack = true;
     window.expect= chai.expect;
     runner=mocha.run();
-    // runner.ignoreLeaks= true;
+    runner.ignoreLeaks= true;
     runner.globals(['blam', 'chai', 'expect', 'mocha', 'describe', 'it', 'runner', '_blam']);
   }
   

@@ -82,6 +82,20 @@ template= blam.compile (user)->
 html+= template(user) for user in all_users
 ```
 
+For array elements you can use the `each` tag:
+
+```coffeescript
+template= blam.compile (users)->
+  div( id:'user-block',
+    each(users, (user)->
+      p("Hello ", user.name)
+    )
+  )
+
+html+= template(all_users)
+```
+
+
 ## BackBone Example
 
 ```coffeescript

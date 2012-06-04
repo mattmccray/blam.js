@@ -1,4 +1,4 @@
-;// BLAM! v0.1 by Matt McCray (https://github.com/darthapo/blam.js)
+;// BLAM! v0.2 by Matt McCray (https://github.com/darthapo/blam.js)
 ;(function(global){
   
   var blam= function(){
@@ -8,9 +8,30 @@
     return fn.apply(blam.tags, args);
   };
   
+  blam.version= '0.2';
+  
   blam.tags= {
     '_': function(){
-      return slice(arguments,0).join('');
+      var args=slice.call(arguments,0),
+          html = '';
+      for(var i=0, l=args.length; i< l; i++) {
+        var child= args[i],
+            value= (typeof(child) == 'function') ? child() : child;
+        if(value) { // Ignore falsy values
+          html+= value;
+        }
+      }
+      return html;
+    },
+    'each': function(arr, block){
+      var html= '', value= null;
+      for(var i=0, l=arr.length; i<l; i++) {
+        value= block(arr[i], i);
+        if(value) { // Ignore falsy values
+          html+= value;
+        }
+      }
+      return html;
     }
   };
   
