@@ -23,7 +23,7 @@
     chai.Assertion.includeStack = true;
     window.expect= chai.expect;
     runner=mocha.run();
-    // runner.ignoreLeaks= true;
+    runner.ignoreLeaks= true;
     runner.globals(['blam', 'chai', 'expect', 'mocha', 'describe', 'it', 'runner', '_blam']);
   }
   
