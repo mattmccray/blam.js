@@ -46,41 +46,41 @@
     return kablam;
   };
 
-	var _add_children= function(node, children) {
+  var _add_children= function(node, children) {
     for(var i=0, l=children.length; i< l; i++) {
       var child= children[i];
       child= (typeof(child) == 'function') ? child() : child;
-			if(isArray(child)) {
-				_add_children(node, child);
-			} else if(typeof(child) == 'object'){
-				// Assume it's a node?
-				node.appendChild( child );
-			} else {
-				node.appendChild( document.createTextNode(child) );
-			}
+      if(isArray(child)) {
+        _add_children(node, child);
+      } else if(typeof(child) == 'object'){
+        // Assume it's a node?
+        node.appendChild( child );
+      } else {
+        node.appendChild( document.createTextNode(child) );
+      }
     }
-	}
+  }
   
   var _build_tag= function(tag, args) {
-		var node= document.createElement(tag), hash='', key='';
+    var node= document.createElement(tag), hash='', key='';
     if(args.length && isObject(args[0])) {
       hash= args.shift();
       for(key in hash) {
         if(hasOwn.call(hash, key)) {
-					node.setAttribute(key, hash[key]);
+          node.setAttribute(key, hash[key]);
         }
       }
     }
-		_add_children(node, args)
+    _add_children(node, args)
     return node;
   };
   
   var slice= Array.prototype.slice,
-			objProto= Object.prototype,
-		  toString= objProto.toString,
+      objProto= Object.prototype,
+      toString= objProto.toString,
       hasOwn= objProto.hasOwnProperty,
-			isArray= Array.isArray,
-			isObject= function(obj){ return obj.constructor.prototype == objProto},
+      isArray= Array.isArray,
+      isObject= function(obj){ return obj.constructor.prototype == objProto},
       taglist= "a abbr address area article aside audio b base bdi bdo blockquote body br button canvas caption cite code col colgroup command data datalist dd del details dfn div dl dt em embed eventsource fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header hgroup hr html i iframe img input ins kbd keygen label legend li link mark map menu meta meter nav noscript object ol optgroup option output p param pre progress q ruby rp rt s samp script section select small source span strong style sub summary sup table tbody td textarea tfoot th thead time title tr track u ul var video wbr".split(' ');
   
   for (var i=0, l=taglist.length; i < l; i++){
@@ -93,12 +93,12 @@
   };
   
   taglist= null;
-	
-	if(!isArray) {
-		isArray= function isArray(obj) {
-			return (toString.call( obj ) === '[object Array]');
-		}
-	}
+  
+  if(!isArray) {
+    isArray= function isArray(obj) {
+      return (toString.call( obj ) === '[object Array]');
+    }
+  }
     
   if(global.exports) {
     global.exports.kablam= kablam;
