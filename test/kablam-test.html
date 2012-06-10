@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>KaBlam! - Mocha Tests</title>
+    <link rel="stylesheet" href="lib/mocha.css" />
+    <script src="lib/chai.js"></script>
+    <script src="lib/mocha.js"></script>
+    <script>mocha.setup('bdd')</script>
+    <script src="../kablam.js"></script>
+    <!-- <script src="../kablam.min.js"></script> 
+    <script src="test.main.js"></script>
+    <script src="test.compile.js"></script>
+    <script src="test.define.js"></script>
+    <script src="test.tags.js"></script>
+    <script src="test.noconflict.js"></script>
+	-->
+  </head>
+  <body>
+    <div id="mocha"></div>
+  </body>
+</html>
+<script>
+
+  window.onload= function() {
+    chai.Assertion.includeStack = true;
+    window.expect= chai.expect;
+    runner=mocha.run();
+    runner.ignoreLeaks= true;
+    runner.globals(['kablam', 'chai', 'expect', 'mocha', 'describe', 'it', 'runner', '_kablam']);
+  }
+  
+  describe('kablam()', function(){
+
+    it('should exist', function(){
+      expect(kablam).to.not.be.undefined;
+    })
+  
+    it('should create a nested html string', function(){
+      expect(kablam(function(){ return html(div('Hello')) }).outerHTML)
+        .to.equal('<html><div>Hello</div></html>')
+    })
+
+    it('should create attributes from object literal', function(){
+      expect(kablam(function(){ return html(div({ id:'my-div'}, 'Hello')) }).outerHTML)
+        .to.equal('<html><div id="my-div">Hello</div></html>')
+    })
+
+    it('should pass through initial arguments to markup block', function(){
+      expect(kablam({ name:'Matt' }, function(user){ return html(div('Hello ', user.name)) }).outerHTML)
+        .to.equal('<html><div>Hello Matt</div></html>')
+
+      expect(kablam({ name:'My App' }, { name:'Matt' }, function(app, user){ return html(h1(app.name), div('Hello ', user.name)) }).outerHTML)
+        .to.equal('<html><h1>My App</h1><div>Hello Matt</div></html>')
+    })
+  
+    it('call inline functions when generating html', function(){
+      var template= kablam.compile(function(){
+        return article({ "class":"container" },
+          section(
+            (function(){
+              return "TESTING"
+            })
+          )
+        );
+      });
+      expect(template().outerHTML)
+        .to.equal('<article class="container"><section>TESTING</section></article>')
+    })
+
+    it('inline functions should have access to data', function(){
+      var template= kablam.compile(function(user){
+        return article({ "class":"container" },
+          section(
+            (function(){
+              return "Hello "+ user.name;
+            })
+          )
+        );
+      });
+      expect(template({ name:'Matt' }).outerHTML)
+        .to.equal('<article class="container"><section>Hello Matt</section></article>')
+    })
+  
+  
+  })
+  
+  
+</script>

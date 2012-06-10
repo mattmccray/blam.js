@@ -1,4 +1,4 @@
-;// BLAM! v0.2 by Matt McCray (https://github.com/darthapo/blam.js)
+;// BLAM! v0.3 by Matt McCray (https://github.com/darthapo/blam.js)
 ;(function(global){
   
   var blam= function(){
@@ -8,7 +8,7 @@
     return fn.apply(blam.tags, args);
   };
   
-  blam.version= '0.2';
+  blam.version= '0.3';
   
   blam.tags= {
     '_': function(){
@@ -42,12 +42,50 @@
     blam.tags[tag]= callback;
   };
   
-  blam.compile= function(block) {
-   with(blam.tags) {
-     var fn= eval('('+ block.toString() +')');
-   } 
-   return fn;
+  blam._compile_nonfancy= function(block) {
+    with(blam.tags) {
+      var fn= eval('('+ block.toString() +')');
+    } 
+    return fn;
   };
+
+  blam._compile_fancy= function(block) {
+    var fns= block.toString(),
+        css_matcher= /(\.[\.a-zA-Z0-9_-]*)*\s*\((\s*\{[^\}]*\})?(\s*\))?/gi;
+    // There Be Dragons: This isn't supported (correctly) in all browsers
+    // so use with caution. (I'm looking at you Internet Explorer)
+    fns= fns.replace(css_matcher, function(src, classes, hash, empty){
+      var result= src.replace(classes, ''),
+          classNames= (classes || "").split('.').splice(1).join(' ');
+      if(classNames !== "") {
+        if(hash) {
+          result= '({"class":"'+ classNames +'", '+ result.substring((result.indexOf('{') + 1));
+        } else if(empty) {
+          result= '({"class":"'+ classNames +'"})';
+        } else {
+          result= '({"class":"'+ classNames +'"},'+ result.substring((result.indexOf('(') + 1));
+        }
+      } 
+      return result;
+    });
+
+    with(blam.tags) {
+      var fn= eval('('+ fns +')');
+    } 
+    return fn;
+  }
+
+  blam.compile= blam._compile_nonfancy
+
+  blam.fancy= function() {
+    if(arguments.length > 0) {
+      if(arguments[0])
+        blam.compile= blam._compile_fancy;
+      else
+        blam.compile= blam._compile_nonfancy;
+    }
+    return blam.compile == blam._compile_fancy;
+  }
   
   blam.noConflict = function(){
     delete global.blam;
