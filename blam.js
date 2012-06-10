@@ -1,5 +1,6 @@
-;// BLAM! v0.3 by Matt McCray (https://github.com/darthapo/blam.js)
+// BLAM! v0.3 by Matt McCray (https://github.com/darthapo/blam.js)
 ;(function(global){
+  var old_blam= global.blam;
   
   var blam= function(){
     var args= slice.call(arguments),
@@ -12,8 +13,7 @@
   
   blam.tags= {
     '_': function(){
-      var args=slice.call(arguments,0),
-          html = '';
+      var args=slice.call(arguments,0), html = '';
       for(var i=0, l=args.length; i< l; i++) {
         var child= args[i],
             value= (typeof(child) == 'function') ? child() : child;
@@ -79,24 +79,23 @@
 
   blam.fancy= function() {
     if(arguments.length > 0) {
-      if(arguments[0])
+      if(arguments[0]) {
         blam.compile= blam._compile_fancy;
-      else
+      } else {
         blam.compile= blam._compile_nonfancy;
+      }
     }
-    return blam.compile == blam._compile_fancy;
+    return (blam.compile == blam._compile_fancy);
   }
   
   blam.noConflict = function(){
-    delete global.blam;
+    global.blam = old_blam;
     return blam;
   };
   
   var _build_tag= function(tag, args) {
-    var html= '<',
-        atts= '',
-        hash= '',
-        key= '';
+    var html= '<', atts= '',
+        hash= '',  key= '';
     if(typeof(args[0]) == 'object') {
       hash= args.shift();
       for(key in hash) {

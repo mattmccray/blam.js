@@ -4,9 +4,8 @@ describe('blam.fancy()', function(){
     blam.fancy(false)
   })
 
-  it('update the internals appropriately', function(){
+  it('should update the internals appropriately', function(){
     // Oh no! Testing internals...
-
     blam.fancy(true);
     expect(blam.compile).to.equal(blam._compile_fancy)
     expect(blam.fancy()).to.be.true
@@ -16,10 +15,9 @@ describe('blam.fancy()', function(){
     expect(blam.compile).to.equal(blam._compile_nonfancy)
     expect(blam.fancy()).to.be.false
     expect(blam.compile).to.equal(blam._compile_nonfancy)
-    
   })
 
-  it('should add css class for named.tags', function(){
+  it('should add css classname for tag.classname', function(){
     blam.fancy(true);
     expect(blam(function(){
       return div.home();
