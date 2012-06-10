@@ -5,6 +5,10 @@
 		<script src="lib/benchmark.js"></script>
 		<script src="../blam.js"></script>
 		<script src="../kablam.js"></script>
+		<script src="https://raw.github.com/darthapo/settee.js/master/settee.js"></script>
+		<!--<script src="http://underscorejs.org/underscore-min.js"></script>
+		<script src="https://raw.github.com/twitter/hogan.js/master/web/builds/1.0.5/hogan-1.0.5.js"></script>-->
+		<script src="https://raw.github.com/visionmedia/jade/master/jade.js"></script>
 		<style type="text/css" media="screen">
 		body {
 			font-family: "Helvetica Nueu", Helvetica, Arial, "MS Trebuchet", sans-serif;
@@ -44,6 +48,10 @@
 						suite: _suite,
 						active: false,
 						tests: [],
+						on: function(event, handler) {
+							_suite.on(event, handler);
+							return this;
+						},
 						add: function(msg, test){
 							var _id= 't_'+ (_counter++);
 							this.tests.push({

@@ -9,7 +9,7 @@ Example usage (in CoffeeScript):
 blam(->
   html(
     head(
-      title("Hello")
+      title( "Hello" )
       script( src:"/my-script.js" )
       link(
         rel:"stylesheet"
@@ -29,13 +29,13 @@ blam(->
 )
 ```
 
-In JavaScript:
+You can use it in JavaScript too (but it's much prettier in CoffeeScript):
 
 ```javascript
 blam(function(){
-  html(
+  return html(
     head(
-      title("Hello"), 
+      title( "Hello" ), 
       script({ src: "/my-script.js" }),
       link({ rel: "stylesheet", type: "text/css", href: "/my-styles.css" })), 
       body(
@@ -49,6 +49,37 @@ blam(function(){
   )
 });
 ```
+
+## New "Fancy" Mode
+
+If you enable fancy mode, during the compilation phase it adds support for assigning classnames via a dot syntax like slim or haml. Example:
+
+```coffeescript
+blam.fancy yes
+
+html= blam ->
+  div.container(
+    div.header( 
+      id:'my-header'
+      h1("Header")
+    )
+    div.content(
+      "Content"
+    )
+    div.footer.hidden (
+      "Multiple classes too"
+    )
+  )
+```
+
+Will generate:
+
+```html
+<div class="container"><div class="header" id="my-header"><h1>Header</h1></div><div class="content">Content</div><div class="footer hidden">Multiple classes too</div></div>
+```
+
+Note: The lack of extra whitespace/indentation is intentional, blam generates html for the browser to read, humans not so much.
+
 
 ## Notes
 
