@@ -39,7 +39,7 @@ describe('blam.define()', function(){
     
     expect(blam({name:'Matt'}, function(user){
       return aside.misc( userInfo( user, p("Welcome") ) )
-    })).to.equal('<aside class="><div class="user">User Matt<p>Welcome</p></div></aside>')
+    })).to.equal('<aside class="misc"><div class="user">User Matt<p>Welcome</p></div></aside>')
   })
 
 })
