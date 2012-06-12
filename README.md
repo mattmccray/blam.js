@@ -19,10 +19,10 @@ blam(->
     )
     body(
       article( id:"main",
-        section( class:'content',
+        section.content(
           p("Loading...")
         )
-        aside( class:'sidebar' )
+        aside.sidebar( "Nav here" )
       )
     )
   )
@@ -40,10 +40,10 @@ blam(function(){
       link({ rel: "stylesheet", type: "text/css", href: "/my-styles.css" })), 
       body(
         article({ id: "main" }, 
-          section({ "class": 'content' }, 
+          section.content(
             p("Loading...")
           ), 
-        aside({ "class": 'sidebar'})
+        aside.sidebar( "Nav here")
       )
     )
   )
@@ -52,11 +52,9 @@ blam(function(){
 
 ## New "Fancy" Mode
 
-If you enable fancy mode, during the compilation phase it adds support for assigning classnames via a dot syntax like slim or haml. Example:
+Using the fancy mode, now enabled by default, during the compilation phase it adds support for assigning classnames via a dot syntax like slim or haml. Example:
 
 ```coffeescript
-blam.fancy yes
-
 html= blam ->
   div.container(
     div.header( 
@@ -131,18 +129,16 @@ html+= template(all_users)
 
 ```coffeescript
 class TweetListView extends Backbone.View
+  className: 'tweet-list'
+
   initialize: ->
     # bind to @collection changes to add/remove TweetViews
     
   render: ->
-    @el.append blam(@, (view)->
-      div( class:"tweet-list", -> 
-        # probably wouldn't actually need a root node, good for example though
-        view.collection.each (tweet)-> 
-          tweetView= new TweetView( model:tweet )
-          tweetView.render().el
-      )
-    )
+    @collection.each (tweet)-> 
+      tweetView= new TweetView( model:tweet )
+      @el.append tweetView.render().el
+
 
 class TweetView extends Backbone.View
   className: 'tweet'
@@ -156,10 +152,10 @@ class TweetView extends Backbone.View
   render: ->
     @el.attr 'id', @model.get(id)
     @el.append blam(@model, (model)->
-      div( class:"body",
-        div( class:"actions",
-          button( class:"reply", "Reply..." )
-          button( class:"retweet", "Retweet..." )
+      div.body(
+        div.actions(
+          button.reply( "Reply..." )
+          button.retweet( "Retweet..." )
         )
         model.get('body')
       )
@@ -168,13 +164,13 @@ class TweetView extends Backbone.View
 
 ## Todo
 
-- Dasherize attributes? (dataRole:"page" would expand to 'data-role="page"')
-
 - Would like to support all the modern browsers and possibly as far back as IE8? (run tests!!!)
 
 - Need to test AMD support.
 
 - Extract and expose tag building helpers.
+
+- Dasherize attributes? (dataRole:"page" would expand to 'data-role="page"')
 
 
 ## Aren't `eval` and `with` Evil?

@@ -1,4 +1,4 @@
-// BLAM! v0.3 by Matt McCray (https://github.com/darthapo/blam.js)
+// BLAM! v0.4 by Matt McCray (https://github.com/darthapo/blam.js)
 ;(function(global){
   var old_blam= global.blam;
   
@@ -9,7 +9,7 @@
     return fn.apply(blam.tags, args);
   };
   
-  blam.version= '0.3';
+  blam.version= '0.4';
   
   blam.tags= {
     '_': function(){
@@ -50,25 +50,24 @@
   };
 
   blam._compile_fancy= function(block) {
-    var fns= block.toString(),
-        css_matcher= /(\.[\.a-zA-Z0-9_-]*)*\s*\((\s*\{[^\}]*\})?(\s*\))?/gi;
     // There Be Dragons: This isn't supported (correctly) in all browsers
     // so use with caution. (I'm looking at you Internet Explorer)
-    fns= fns.replace(css_matcher, function(src, classes, hash, empty){
+    var fns= block.toString().replace(css_matcher, function(src, tagName, classes, hash, empty){
       var result= src.replace(classes, ''),
-          classNames= (classes || "").split('.').splice(1).join(' ');
-      if(classNames !== "") {
+          classNames= (classes || "").split(' ').join('').split('.').splice(1).join(' ');
+      if(!blam.tags[tagName]) {
+        result= src;
+      } else if(classNames !== "") {
         if(hash) {
-          result= '({"class":"'+ classNames +'", '+ result.substring((result.indexOf('{') + 1));
+          result= tagName+ '({"class":"'+ classNames +'", '+ result.substring((result.indexOf('{') + 1));
         } else if(empty) {
-          result= '({"class":"'+ classNames +'"})';
+          result= tagName+ '({"class":"'+ classNames +'"})';
         } else {
-          result= '({"class":"'+ classNames +'"},'+ result.substring((result.indexOf('(') + 1));
+          result= tagName+ '({"class":"'+ classNames +'"},'+ result.substring((result.indexOf('(') + 1));
         }
       } 
       return result;
     });
-
     with(blam.tags) {
       var fn= eval('('+ fns +')');
     } 
@@ -113,7 +112,8 @@
     return html;
   };
   
-  var slice= Array.prototype.slice,
+  var css_matcher= /(\w*)(\.[\.a-zA-Z0-9_\- ]*)*\s*\((\s*\{[^\}]*\})?(\s*\))?/gi,
+      slice= Array.prototype.slice,
       hasOwn= Object.prototype.hasOwnProperty,
       taglist= "a abbr address area article aside audio b base bdi bdo blockquote body br button canvas caption cite code col colgroup command data datalist dd del details dfn div dl dt em embed eventsource fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header hgroup hr html i iframe img input ins kbd keygen label legend li link mark map menu meta meter nav noscript object ol optgroup option output p param pre progress q ruby rp rt s samp script section select small source span strong style sub summary sup table tbody td textarea tfoot th thead time title tr track u ul var video wbr".split(' ');
   
@@ -135,5 +135,13 @@
   } else {
     global.blam= blam;
   };
+
+  // If this js env correctly supports fancy mode, enable it.
+  ("div.it.works()").replace(css_matcher, function(s, t, c, h, e){ 
+    if(t == 'div' && c == ".it.works") {
+      blam.fancy(true);
+    }
+    return s; 
+  })
   
 })(this);
