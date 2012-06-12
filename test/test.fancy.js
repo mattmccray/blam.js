@@ -4,9 +4,8 @@ describe('blam.fancy()', function(){
     blam.fancy(false)
   })
 
-  it('update the internals appropriately', function(){
+  it('should update the internals appropriately', function(){
     // Oh no! Testing internals...
-
     blam.fancy(true);
     expect(blam.compile).to.equal(blam._compile_fancy)
     expect(blam.fancy()).to.be.true
@@ -16,10 +15,9 @@ describe('blam.fancy()', function(){
     expect(blam.compile).to.equal(blam._compile_nonfancy)
     expect(blam.fancy()).to.be.false
     expect(blam.compile).to.equal(blam._compile_nonfancy)
-    
   })
 
-  it('should add css class for named.tags', function(){
+  it('should add css classname for tag.classname', function(){
     blam.fancy(true);
     expect(blam(function(){
       return div.home();
@@ -30,11 +28,18 @@ describe('blam.fancy()', function(){
     })).to.equal('<div class="home"></div>')
   })
 
-  it('should add allow all valid css class names', function(){
+  it('should allow all valid css class names', function(){
     blam.fancy(true);
-    expect(blam(function(){
-      return div.home(div.page-one(), div.page_two(), div.page3());
-    })).to.equal('<div class="home"><div class="page-one"></div><div class="page_two"></div><div class="page3"></div></div>')
+
+    var tmpl=function(){
+          return div.home(div.page-one(), div.page_two(), div.page3());
+        },
+        fn= blam.compile(tmpl)
+
+    console.log("Translated:", fn.toString())
+
+
+    expect(fn()).to.equal('<div class="home"><div class="page-one"></div><div class="page_two"></div><div class="page3"></div></div>')
   })
 
   it('should add css class for named.tags with hashes too', function(){
@@ -61,9 +66,15 @@ describe('blam.fancy()', function(){
 
   it('should add css classes regardless of nesting', function(){
     blam.fancy(true);
-    expect(blam(function(){
+
+    var tmpl= function(){
       return div.home({ id:'main' }, p('hello'), p.farewell( { 'data-role':'exit' }, 'goodbye'), aside.sidebar(footer.foot.body('Copyright')));
-    })).to.equal('<div class="home" id="main"><p>hello</p><p class="farewell" data-role="exit">goodbye</p><aside class="sidebar"><footer class="foot body">Copyright</footer></aside></div>')
+    }
+    var fn= blam.compile(tmpl)
+
+    // console.log("Translated:", fn.toString())
+
+    expect(fn()).to.equal('<div class="home" id="main"><p>hello</p><p class="farewell" data-role="exit">goodbye</p><aside class="sidebar"><footer class="foot body">Copyright</footer></aside></div>')
   })
 
 })
