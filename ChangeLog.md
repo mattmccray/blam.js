@@ -1,3 +1,7 @@
+# v0.4.1
+- Added "__" tag for easily stitching together function arguments to return (useful for custom tags).
+
+
 # v0.4
 - Fancy mode is enabled by default for platforms that support it.
 - blam.noConflict() restores whatever global.blam was before now.

@@ -1,4 +1,4 @@
-// BLAM! v0.4 by Matt McCray (https://github.com/darthapo/blam.js)
+// BLAM! v0.4.1 by Matt McCray (https://github.com/darthapo/blam.js)
 ;(function(global){
   var old_blam= global.blam;
   
@@ -9,7 +9,7 @@
     return fn.apply(blam.tags, args);
   };
   
-  blam.version= '0.4';
+  blam.version= '0.4.1';
   
   blam.tags= {
     '_': function(){
@@ -19,6 +19,18 @@
             value= (typeof(child) == 'function') ? child() : child;
         if(value) { // Ignore falsy values
           html+= value;
+        }
+      }
+      return html;
+    },
+    '__': function(){ // Expect 1 or more arrays as parameters
+      var args=slice.call(arguments,0), html= '', value= null;
+      for(var i=0, l=args.length; i<l; i++) {
+        value= args[i];
+        if(value && value.length) { // Ignore falsy values
+          for(var j=0, jl=value.length; j<jl; j++){
+            html+= blam.tags._( value[j] );
+          }
         }
       }
       return html;
@@ -37,7 +49,7 @@
   
   blam.define= function(tag, callback, compile) {
     if(compile !== false) {
-      callback= blam.compile(callback)
+      callback= blam.compile(callback);
     }
     blam.tags[tag]= callback;
   };
@@ -70,11 +82,11 @@
     });
     with(blam.tags) {
       var fn= eval('('+ fns +')');
-    } 
+    }
     return fn;
   }
 
-  blam.compile= blam._compile_nonfancy
+  blam.compile= blam._compile_nonfancy;
 
   blam.fancy= function() {
     if(arguments.length > 0) {
