@@ -36,8 +36,7 @@ describe('blam.fancy()', function(){
         },
         fn= blam.compile(tmpl)
 
-    console.log("Translated:", fn.toString())
-
+    // console.log("Translated:", fn.toString())
 
     expect(fn()).to.equal('<div class="home"><div class="page-one"></div><div class="page_two"></div><div class="page3"></div></div>')
   })
