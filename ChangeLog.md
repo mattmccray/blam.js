@@ -1,3 +1,6 @@
+# v0.4.2
+- Added support for NPM
+
 # v0.4.1
 - Added "__" tag for easily stitching together function arguments to return (useful for custom tags).
 

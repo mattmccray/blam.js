@@ -1,4 +1,4 @@
-// BLAM! v0.4.1 by Matt McCray (https://github.com/darthapo/blam.js)
+// BLAM! v0.4.2 by Matt McCray (https://github.com/darthapo/blam.js)
 ;(function(global){
   var old_blam= global.blam;
   
@@ -9,7 +9,7 @@
     return fn.apply(blam.tags, args);
   };
   
-  blam.version= '0.4.1';
+  blam.version= '0.4.2';
   
   blam.tags= {
     '_': function(){

@@ -1,0 +1,18 @@
+{
+  "author": "Matt McCray <matt@elucidata.net> (http://www.elucidata.net)",
+  "name": "blam",
+  "description": "Simple, inline, functional html templating.",
+  "version": "0.4.2",
+  "homepage": "http://darthapo.github.com/blam.js/",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/darthapo/blam.js.git"
+  },
+  "main": "blam.js",
+  "engines": {
+    "node": "~0.6"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {}
+}
