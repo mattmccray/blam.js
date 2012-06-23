@@ -1,3 +1,9 @@
+if(!blam && require){
+  var blam= require('../blam.js').blam;
+  var expect= require('chai').expect;
+}
+
+
 describe('blam.tags', function(){
   
   describe('_', function(){
@@ -23,6 +29,7 @@ describe('blam.tags', function(){
         .to.equal('<div>A</div><div>B</div>')
     })
     it('should output function arguments from custom tag', function(){
+      blam.fancy(true)
       blam.define('my_test_tag', function(){
         return div.container(__(arguments))
       });

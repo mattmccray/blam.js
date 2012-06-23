@@ -29,3 +29,9 @@ task :build do
 end
 
 task :default => :build
+
+
+desc "Run tests"
+task :test do
+  system("mocha")
+end

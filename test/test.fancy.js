@@ -1,3 +1,9 @@
+if(!blam && require){
+  var blam= require('../blam.js').blam;
+  var expect= require('chai').expect;
+}
+
+
 describe('blam.fancy()', function(){
 
   after(function(){

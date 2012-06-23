@@ -1,3 +1,9 @@
+if(!blam && require){
+  var blam= require('../blam.js').blam;
+  var expect= require('chai').expect;
+}
+
+
 describe('blam()', function(){
 
   it('should exist', function(){

@@ -1,3 +1,6 @@
+# v0.5
+- Added experimental support for inserting a context object into the template scope. (using a second `with` -- the horror!)
+
 # v0.4.2
 - Added support for NPM
 

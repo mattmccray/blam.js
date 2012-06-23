@@ -1,16 +1,23 @@
+if(!blam && require){
+  var blam= require('../blam.js').blam;
+  var expect= require('chai').expect;
+}
+
+var global= this;
+
 describe('blam.noConflict()', function(){
   
   beforeEach(function(){
-    window._blam= blam; //.noConflict()
+    global._blam= blam; //.noConflict()
   })
   
   afterEach(function(){
-    window.blam= window._blam
+    global.blam= global._blam
   })
 
   it('should remove blam from the global scope', function(){
     var b= blam.noConflict()
-    expect(window.blam).to.be.undefined
+    expect(global.blam).to.be.undefined
   })
 
   it('should return the blam object/function', function(){

@@ -1,4 +1,4 @@
-// BLAM! v0.4.2 by Matt McCray (https://github.com/darthapo/blam.js)
+// BLAM! v0.5 by Matt McCray (https://github.com/darthapo/blam.js)
 ;(function(global, undef){
   
   var blam= function(){
@@ -8,11 +8,11 @@
     return fn.apply(blam.tags, args);
   };
   
-  blam.version= '0.4.2';
+  blam.version= '0.5';
   
   blam.tags= {
     '_': function(){
-      var args=slice.call(arguments,0), html = '', i= 0, j=0, child=null;
+      var args=slice.call(arguments,0), html = '', i= 0, j=0, child=null, value=null;
       for(i=0, l=args.length; i< l; i++) {
         child= args[i], value= (typeof(child) == 'function') ? child() : child;
         if(value) { // Ignore falsy values
@@ -44,6 +44,20 @@
       return html;
     }
   };
+
+  blam.scope= function(ctx){
+    if(!ctx) throw 'Context object required to create scope!';
+    var custom_blam= function(){
+      var args= slice.call(arguments),
+          block= args.pop(),
+          fn= blam.compile(block, ctx);
+      return fn.apply(blam.tags, args);
+    };
+    custom_blam.compile= function(block){
+      return blam.compile(block, ctx);
+    };
+    return custom_blam;
+  };
   
   blam.define= function(tag, callback, compile) {
     if(compile !== false) {
@@ -51,15 +65,28 @@
     }
     blam.tags[tag]= callback;
   };
-  
-  blam._compile_nonfancy= function(block) {
-    with(blam.tags) {
-      var fn= eval('('+ block.toString() +')');
-    } 
+
+  blam._do_compile= function(block, scope) {
+    if(scope) {
+      var tags= blam.tags, fn= null;
+      with(scope) {
+        with(tags) {
+          var fn= eval('('+ block.toString() +')');
+        } 
+      }
+    } else {
+      with(blam.tags) {
+        var fn= eval('('+ block.toString() +')');
+      } 
+    }
     return fn;
   };
+  
+  blam._compile_nonfancy= function(block,scope) {
+    return blam._do_compile(block, scope);
+  };
 
-  blam._compile_fancy= function(block) {
+  blam._compile_fancy= function(block, scope) {
     // There Be Dragons: This isn't supported (correctly) in all browsers
     // so use with caution. (I'm looking at you Internet Explorer)
     var fn= null, fns= block.toString().replace(css_matcher, function(src, tagName, classes, hash, empty){
@@ -78,11 +105,8 @@
       } 
       return result;
     });
-    with(blam.tags) {
-      fn= eval('('+ fns +')');
-    }
-    return fn;
-  }
+    return blam._do_compile(fns, scope);
+  };
 
   blam.compile= blam._compile_nonfancy;
 
@@ -95,7 +119,7 @@
       }
     }
     return (blam.compile == blam._compile_fancy);
-  }
+  };
   
   blam.noConflict = function(){
     global.blam = old_blam;
@@ -103,7 +127,7 @@
   };
   
   var _build_tag= function(tag, args) {
-    var html= '<', atts= '', child= hash= key= null, i= 0, l= 0;
+    var html= '<', atts= '', child= null, hash= null, key= null, i= 0, l= 0;
     if(typeof(args[0]) == 'object') {
       hash= args.shift();
       for(key in hash) {
@@ -153,6 +177,6 @@
       blam.fancy(true);
     }
     return s; 
-  })
+  });
   
 })(this);
