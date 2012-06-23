@@ -1,4 +1,4 @@
-// BLAM! v0.5 by Matt McCray (https://github.com/darthapo/blam.js)
+// BLAM! v0.5.1 by Matt McCray (https://github.com/darthapo/blam.js)
 ;(function(global, undef){
   
   var blam= function(){
@@ -8,11 +8,11 @@
     return fn.apply(blam.tags, args);
   };
   
-  blam.version= '0.5';
+  blam.version= '0.5.1';
   
   blam.tags= {
     '_': function(){
-      var args=slice.call(arguments,0), html = '', i= 0, j=0, child=null, value=null;
+      var args=slice.call(arguments,0), html = '', i= 0, j=0, l=0, child=null, value=null;
       for(i=0, l=args.length; i< l; i++) {
         child= args[i], value= (typeof(child) == 'function') ? child() : child;
         if(value) { // Ignore falsy values
@@ -67,16 +67,18 @@
   };
 
   blam._do_compile= function(block, scope) {
+    var fn= null, fns= block.toString();
+    fns= fns.indexOf('function') < 0 ? "(function(){ return "+ fns +";})" : "("+ fns +")";
     if(scope) {
       var tags= blam.tags, fn= null;
       with(scope) {
         with(tags) {
-          var fn= eval('('+ block.toString() +')');
+          fn= eval(fns);
         } 
       }
     } else {
       with(blam.tags) {
-        var fn= eval('('+ block.toString() +')');
+        fn= eval(fns);
       } 
     }
     return fn;

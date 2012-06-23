@@ -55,6 +55,28 @@ describe('blam()', function(){
     expect(template({ name:'Matt' }))
       .to.equal('<article class="container"><section>Hello Matt</section></article>')
   })
+
+  it('should allow templates as a string', function(){
+    expect(blam("function(){ return html(div('Hello')) }"))
+      .to.equal('<html><div>Hello</div></html>')
+
+  })
+  it('should function wrap template strings if needed', function(){
+    expect(blam("html(div('Hello'))"))
+      .to.equal('<html><div>Hello</div></html>')
+    expect(blam.scope({name:'Matt'})("html(div('Hello ', name))"))
+      .to.equal('<html><div>Hello Matt</div></html>')
+
+
+    blam.fancy(true)
+    expect(blam("html(div.test('Hello'))"))
+      .to.equal('<html><div class="test">Hello</div></html>')
+    expect(blam.scope({name:'Matt'})("html(div.test('Hello ', name))"))
+      .to.equal('<html><div class="test">Hello Matt</div></html>')
+    blam.fancy(false)
+
+    
+  })
   
   
 })

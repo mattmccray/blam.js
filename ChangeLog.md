@@ -1,3 +1,7 @@
+# v0.5.1
+- You can now send a string literal as a template.
+- It will auto-wrap string templates in a function block, if necessary.
+
 # v0.5
 - Added experimental support for inserting a context object into the template scope. (using a second `with` -- the horror!)
 
@@ -6,7 +10,6 @@
 
 # v0.4.1
 - Added "__" tag for easily stitching together function arguments to return (useful for custom tags).
-
 
 # v0.4
 - Fancy mode is enabled by default for platforms that support it.
