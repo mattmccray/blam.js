@@ -1,3 +1,8 @@
+if(!blam && require){
+  var blam= require('../blam.js').blam;
+  var expect= require('chai').expect;
+}
+
 describe('blam.compile()', function(){
   
   it('should return a compiled function', function(){

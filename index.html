@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Blam.js by darthapo</title>
 
+    <link rel="stylesheet" href="stylesheets/highlight/github.css">
     <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,145 +26,219 @@
         </ul>
       </header>
       <section>
-        <h1>blam.js</h1>
+<!-- Content -->
+<h1>blam.js</h1>
 
 <p><strong>Simple, Tiny, Fast</strong> (enough)</p>
 
 <p>Example usage (in CoffeeScript):</p>
 
-<div class="highlight">
-<pre><span class="nx">blam</span><span class="p">(</span><span class="o">-&gt;</span>
-  <span class="nx">html</span><span class="p">(</span>
-    <span class="nx">head</span><span class="p">(</span>
-      <span class="nx">title</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">)</span>
-      <span class="nx">script</span><span class="p">(</span> <span class="nx">src</span><span class="o">:</span><span class="s">"/my-script.js"</span> <span class="p">)</span>
-      <span class="nx">link</span><span class="p">(</span>
-        <span class="nx">rel</span><span class="o">:</span><span class="s">"stylesheet"</span>
-        <span class="nx">type</span><span class="o">:</span><span class="s">"text/css"</span>
-        <span class="nx">href</span><span class="o">:</span><span class="s">"/my-styles.css"</span>
-      <span class="p">)</span>
-    <span class="p">)</span>
-    <span class="nx">body</span><span class="p">(</span>
-      <span class="nx">article</span><span class="p">(</span> <span class="nx">id</span><span class="o">:</span><span class="s">"main"</span><span class="p">,</span>
-        <span class="nx">section</span><span class="p">(</span> <span class="k">class</span><span class="o">:</span><span class="s">'content'</span><span class="p">,</span>
-          <span class="nx">p</span><span class="p">(</span><span class="s">"Loading..."</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="nx">aside</span><span class="p">(</span> <span class="k">class</span><span class="o">:</span><span class="s">'sidebar'</span> <span class="p">)</span>
-      <span class="p">)</span>
-    <span class="p">)</span>
-  <span class="p">)</span>
-<span class="p">)</span>
-</pre>
-</div>
+<pre><code class="coffeescript">blam(-&gt;
+  html(
+    head(
+      title( &quot;Hello&quot; )
+      script( src:&quot;/my-script.js&quot; )
+      link( rel:&quot;stylesheet&quot;, type:&quot;text/css&quot;, href:&quot;/my-styles.css&quot; )
+    )
+    body(
+      article( id:&quot;main&quot;,
+        section.content(
+          p(&quot;Loading...&quot;)
+        )
+        aside.sidebar( &quot;Nav here&quot; )
+      )
+    )
+  )
+)</code></pre>
 
+<p>You can use it in JavaScript too (but it&#8217;s much prettier in CoffeeScript):</p>
 
-<p>In JavaScript:</p>
+<pre><code class="javascript">blam(function(){
+  return html(
+    head(
+      title( &quot;Hello&quot; ), 
+      script({ src: &quot;/my-script.js&quot; }),
+      link({ rel: &quot;stylesheet&quot;, type: &quot;text/css&quot;, href: &quot;/my-styles.css&quot; })), 
+      body(
+        article({ id: &quot;main&quot; }, 
+          section.content(
+            p(&quot;Loading...&quot;)
+          ), 
+        aside.sidebar( &quot;Nav here&quot;)
+      )
+    )
+  )
+});</code></pre>
 
-<div class="highlight">
-<pre><span class="nx">blam</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-  <span class="nx">html</span><span class="p">(</span>
-    <span class="nx">head</span><span class="p">(</span>
-      <span class="nx">title</span><span class="p">(</span><span class="s2">"Hello"</span><span class="p">),</span> 
-      <span class="nx">script</span><span class="p">({</span> <span class="nx">src</span><span class="o">:</span> <span class="s2">"/my-script.js"</span> <span class="p">}),</span>
-      <span class="nx">link</span><span class="p">({</span> <span class="nx">rel</span><span class="o">:</span> <span class="s2">"stylesheet"</span><span class="p">,</span> <span class="nx">type</span><span class="o">:</span> <span class="s2">"text/css"</span><span class="p">,</span> <span class="nx">href</span><span class="o">:</span> <span class="s2">"/my-styles.css"</span> <span class="p">})),</span> 
-      <span class="nx">body</span><span class="p">(</span>
-        <span class="nx">article</span><span class="p">({</span> <span class="nx">id</span><span class="o">:</span> <span class="s2">"main"</span> <span class="p">},</span> 
-          <span class="nx">section</span><span class="p">({</span> <span class="s2">"class"</span><span class="o">:</span> <span class="s1">'content'</span> <span class="p">},</span> 
-            <span class="nx">p</span><span class="p">(</span><span class="s2">"Loading..."</span><span class="p">)</span>
-          <span class="p">),</span> 
-        <span class="nx">aside</span><span class="p">({</span> <span class="s2">"class"</span><span class="o">:</span> <span class="s1">'sidebar'</span><span class="p">})</span>
-      <span class="p">)</span>
-    <span class="p">)</span>
-  <span class="p">)</span>
-<span class="p">});</span>
-</pre>
-</div>
+<p>If you like, you can compile string templates as well (you&#8217;ll need to use the javascript syntax):</p>
 
+<pre><code class="html">&lt;script type=&quot;text/blam&quot; id=&quot;my_template&quot;&gt;
+article.container(
+  section.main(
+    p(&quot;Hello!&quot;)
+  ),
+  aside.sidebar(
+    ul(
+      li(&quot;Navigation, mayhaps?&quot;)
+    )
+  )
+)
+&lt;/script&gt;
+&lt;script&gt;
+var template_string= document.getElementById(&apos;my_template&apos;);
+// Render it...
+var html= blam( template_string );
+
+// Or if you&apos;re gonna reuse the template, you should probably compile it:
+var template= blam.compile( template_string );
+
+// then however many times you want
+var html= template();
+&lt;/script&gt;</code></pre>
 
 <h2>Notes</h2>
 
 <p>Clocks in at ~1K minified and gzipped.</p>
 
-<p>Supports adding custom tags:</p>
+<p>MIT Licensed.</p>
 
-<div class="highlight">
-<pre><span class="nx">blam</span><span class="p">.</span><span class="nx">define</span> <span class="s">'jqmpage'</span><span class="p">,</span> <span class="nf">(args...)-&gt;</span>
-  <span class="nx">div</span> <span class="s">'data-role'</span><span class="o">:</span><span class="s">'page'</span><span class="p">,</span>
-    <span class="nx">div</span> <span class="s">'data-role'</span><span class="o">:</span><span class="s">'header'</span><span class="p">,</span> <span class="nx">args</span><span class="p">...</span>
-</pre>
-</div>
+<p>Unit tests can be found at: <a href="http://darthapo.github.com/blam.js/test">darthapo.github.com/blam.js/test</a></p>
 
+<p><strong><em>Please</em> let me know if any of the tests break in your browser!</strong></p>
 
-<p>Passes initial arguments on to markup block:</p>
+<p>If the first argument to a tag block is an object literal then its key/value pairs are used as tag attributes.</p>
 
-<div class="highlight">
-<pre><span class="nx">blam</span> <span class="nx">name</span><span class="o">:</span><span class="s">'Matt'</span><span class="p">,</span> <span class="nf">(user)-&gt;</span>
-  <span class="nx">div</span><span class="p">(</span> <span class="nx">id</span><span class="o">:</span><span class="s">'user-block'</span><span class="p">,</span>
-    <span class="nx">p</span><span class="p">(</span><span class="s">"Hello "</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span>
-  <span class="p">)</span>
-</pre>
-</div>
+<pre><code class="coffeescript">blam -&gt;
+  div( id:&quot;posts&quot;, &apos;data-role&apos;:&quot;post&quot;,
+    p(&quot;content here...&quot;)
+  )
+# =&gt; &apos;&lt;div id=&quot;posts&quot; data-role=&quot;post&quot;&gt;&lt;p&gt;content here...&lt;/p&gt;&lt;/div&gt;&apos;</code></pre>
 
+<p>Blam will pass initial arguments on to the markup block:</p>
 
-<p>Can be "compiled" into an executable function (good for often repeated bits of code):</p>
+<pre><code class="coffeescript">blam name:&apos;Matt&apos;, (user)-&gt;
+  div( id:&apos;user-block&apos;,
+    p(&quot;Hello &quot;, user.name)
+  )</code></pre>
 
-<div class="highlight">
-<pre><span class="nv">template= </span><span class="nx">blam</span><span class="p">.</span><span class="nx">compile</span> <span class="nf">(user)-&gt;</span>
-  <span class="nx">div</span><span class="p">(</span> <span class="nx">id</span><span class="o">:</span><span class="s">'user-block'</span><span class="p">,</span>
-    <span class="nx">p</span><span class="p">(</span><span class="s">"Hello "</span><span class="p">,</span> <span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">)</span>
-  <span class="p">)</span>
+<p>Markup blocks can be &#8220;compiled&#8221; into an executable function (good for often repeated bits of code):</p>
 
-<span class="nx">html</span><span class="o">+=</span> <span class="nx">template</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="k">for</span> <span class="nx">user</span> <span class="k">in</span> <span class="nx">all_users</span>
-</pre>
-</div>
+<pre><code class="coffeescript">template= blam.compile (user)-&gt;
+  div( id:&apos;user-block&apos;,
+    p(&quot;Hello &quot;, user.name)
+  )
 
+html+= template(user) for user in all_users</code></pre>
 
-<h2>BackBone Example</h2>
+<p>For array elements you can use the <code>each</code> tag:</p>
 
-<div class="highlight">
-<pre><span class="k">class</span> <span class="nx">TweetListView</span> <span class="k">extends</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span>
-  <span class="nv">initialize: </span><span class="o">-&gt;</span>
-    <span class="c1"># bind to @collection changes to add/remove TweetViews</span>
+<pre><code class="coffeescript">template= blam.compile (users)-&gt;
+  div( id:&apos;user-block&apos;,
+    each(users, (user)-&gt;
+      p(&quot;Hello &quot;, user.name)
+    )
+  )
 
-  <span class="nv">render: </span><span class="o">-&gt;</span>
-    <span class="nx">@el</span><span class="p">.</span><span class="nx">append</span> <span class="nx">blam</span><span class="p">(</span><span class="nx">@</span><span class="p">,</span> <span class="nf">(view)-&gt;</span>
-      <span class="nx">div</span><span class="p">(</span> <span class="k">class</span><span class="o">:</span><span class="s">"tweet-list"</span><span class="p">,</span> <span class="o">-&gt;</span> 
-        <span class="c1"># probably wouldn't actually need a root node, good for example though</span>
-        <span class="nx">view</span><span class="p">.</span><span class="nx">collection</span><span class="p">.</span><span class="nx">each</span> <span class="nf">(tweet)-&gt;</span> 
-          <span class="nv">tweetView= </span><span class="k">new</span> <span class="nx">TweetView</span><span class="p">(</span> <span class="nx">model</span><span class="o">:</span><span class="nx">tweet</span> <span class="p">)</span>
-          <span class="nx">tweetView</span><span class="p">.</span><span class="nx">render</span><span class="p">().</span><span class="nx">el</span>
-      <span class="p">)</span>
-    <span class="p">)</span>
+html+= template(all_users)</code></pre>
 
-<span class="k">class</span> <span class="nx">TweetView</span> <span class="k">extends</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">View</span>
-  <span class="nv">className: </span><span class="s">'tweet'</span>
+<p>You can create partials/custom tags:</p>
 
-  <span class="nv">events:</span>
-    <span class="s">"click .reply"</span><span class="o">:</span> <span class="s">"doReply"</span>
+<pre><code class="coffeescript">blam.define &apos;layout&apos;, -&gt;
+  article.container(
+    header( h1( &quot;My App&quot; ) )
+    section.body( __(arguments) )
+    footer( p(&quot;&amp;copy; me!&quot;) )
+  )</code></pre>
 
-  <span class="nv">doReply: </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="o">=&gt;</span>
-    <span class="nx">alert</span> <span class="s">"Do reply code here..."</span>
+<p>You can then use it like a tag:</p>
 
-  <span class="nv">render: </span><span class="o">-&gt;</span>
-    <span class="nx">@el</span><span class="p">.</span><span class="nx">attr</span> <span class="s">'id'</span><span class="p">,</span> <span class="nx">@model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span>
-    <span class="nx">@el</span><span class="p">.</span><span class="nx">append</span> <span class="nx">blam</span><span class="p">(</span><span class="nx">@model</span><span class="p">,</span> <span class="nf">(model)-&gt;</span>
-      <span class="nx">div</span><span class="p">(</span> <span class="k">class</span><span class="o">:</span><span class="s">"body"</span><span class="p">,</span>
-        <span class="nx">div</span><span class="p">(</span> <span class="k">class</span><span class="o">:</span><span class="s">"actions"</span><span class="p">,</span>
-          <span class="nx">button</span><span class="p">(</span> <span class="k">class</span><span class="o">:</span><span class="s">"reply"</span><span class="p">,</span> <span class="s">"Reply..."</span> <span class="p">)</span>
-          <span class="nx">button</span><span class="p">(</span> <span class="k">class</span><span class="o">:</span><span class="s">"retweet"</span><span class="p">,</span> <span class="s">"Retweet..."</span> <span class="p">)</span>
-        <span class="p">)</span>
-        <span class="nx">model</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s">'body'</span><span class="p">)</span>
-      <span class="p">)</span>
-    <span class="p">)</span>
-</pre>
-</div>
+<pre><code class="coffeescript">blam @posts, (posts)-&gt;
+  layout(
+    div.posts(
+      each(posts, (post)-&gt;
+        div.entry( post.body )
+      )
+    )
+  )</code></pre>
 
+<p>You can turn off the fancy auto css class support:</p>
 
-<h2>Aren't <code>eval</code> and <code>with</code> Evil?</h2>
+<pre><code class="coffeescript">blam.fancy(no)
 
-<p>No! They're just misunderstood. This is exactly why they are useful as a language feature. They allow excellent DSL generation.</p>
+# You have to use the attributes hash to add classnames now:
+blam -&gt;
+  div( class:&apos;my-class&apos;, &quot;Content&quot;)</code></pre>
 
-<p>That said, it <em>is</em> a good rule of thumb that if you don't know when is best to use them; don't.</p>
+<h2>Scopes</h2>
+
+<p>You can add a single object to a markup block&#8217;s scope when pre-compiling templates:</p>
+
+<pre><code class="coffeescript">data=
+  name: &apos;Me&apos;
+  age: &apos;Old Enough&apos;
+
+template= blam.scope(data).compile -&gt;
+  div( name, &quot; is &quot;, age )
+
+html= template()
+#=&gt; &quot;&lt;div&gt;Me is Old Enough&lt;/div&gt;&quot;</code></pre>
+
+<h2>Backbone Mini Example</h2>
+
+<pre><code class="coffeescript">
+class TweetView extends Backbone.View
+  @template: blam.compile (tweet)-&gt;
+    div.tweet(
+      img.avatar( 
+        src: tweet.profile_image_url
+        alt: tweet.from_user_name
+      )
+      div.status(
+        tweet.status
+      )
+      div.footer(
+        &quot;@&quot;
+        tweet.from_user
+        &quot; said on &quot;
+        tweet.created_at
+      )
+    )
+
+  render: -&gt;
+    @$el.html TweetView.template( @model.toJSON() )</code></pre>
+
+<h2>Node.js</h2>
+
+<p>Blam is available as an npm package as well. To install:</p>
+
+<p><code>npm install blam</code></p>
+
+<p>Or, use the <code>-g</code> option to install it globally:</p>
+
+<p><code>npm install blam -g</code></p>
+
+<p>Then <code>require</code> it as per usual in node:</p>
+
+<pre><code class="javascript">var blam= require(&apos;blam&apos;).blam;
+
+blam.compile(function(){ return div(&quot;etc...&quot;) })</code></pre>
+
+<h2>Todo</h2>
+
+<ul>
+<li><p>Need to cleanup this ReadMe and create some proper docs.</p></li>
+<li><p>Would like to support all the modern browsers and possibly as far back as IE8?</p></li>
+<li><p>Need to test AMD support.</p></li>
+<li><p>Extract and expose tag building helpers.</p></li>
+<li><p>Dasherize attributes? (dataRole:&#8220;page&#8221; would expand to &#8216;data-role=&#8220;page&#8221;&#8217;)</p></li>
+</ul>
+
+<h2>Aren&#8217;t <code>eval</code> and <code>with</code> Evil?</h2>
+
+<p><strong>No!</strong> They&#8217;re just <em>misunderstood</em>. Blam.js is a good example of why they are useful as language features. They allow excellent DSL generation.</p>
+
+<p>That having been said, it <em>is</em> a good rule of thumb that if you don&#8217;t know when is best to use them; don&#8217;t.</p>
+<!-- /Content -->
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/darthapo">darthapo</a></p>
@@ -172,6 +246,8 @@
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
+    <script src="javascripts/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
     
   </body>
 </html>

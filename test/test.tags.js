@@ -1,3 +1,9 @@
+if(!blam && require){
+  var blam= require('../blam.js').blam;
+  var expect= require('chai').expect;
+}
+
+
 describe('blam.tags', function(){
   
   describe('_', function(){
@@ -8,6 +14,29 @@ describe('blam.tags', function(){
     it('should swallow falsy values', function(){
       expect(blam(function(){ return _( div("A"), null, div("B"),function(){}, false)}))
         .to.equal('<div>A</div><div>B</div>')
+    })
+  })
+
+  describe('__', function(){
+    it('should stitch together function arguments/arrays without adding to output', function(){
+      expect(blam(function(){ 
+        return __([p('HELLO'), 'all'], div("A"), div("B")) 
+      }))
+        .to.equal('<p>HELLO</p>all<div>A</div><div>B</div>')
+    })
+    it('should swallow falsy values', function(){
+      expect(blam(function(){ return _( div("A"), null, div("B"),function(){}, false)}))
+        .to.equal('<div>A</div><div>B</div>')
+    })
+    it('should output function arguments from custom tag', function(){
+      blam.fancy(true)
+      blam.define('my_test_tag', function(){
+        return div.container(__(arguments))
+      });
+      expect(blam(function(){ 
+        return my_test_tag(p("Hi")) 
+      }))
+        .to.equal('<div class="container"><p>Hi</p></div>')
     })
   })
   
