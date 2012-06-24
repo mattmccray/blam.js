@@ -68,42 +68,4 @@ describe('blam.scope()', function(){
 
   })
 
-  // it('should not spill scope into custom tags', function(){
-  //   blam.fancy(true);
-  //   blam.define('custom_scope_tag', function(){
-  //     return div.container(__(arguments));
-  //   });
-  //   blam.define('custom_scope_tag2', function(){
-  //     return div.container(name);
-  //   });
-
-  //   var ctx= {
-  //         name: 'Bob',
-  //         show: 'This old house'
-  //       },
-  //       src= function(){
-  //         return custom_scope_tag(
-  //           h1(name),
-  //           p(show)
-  //         );
-  //       },
-  //       src2= function(){
-  //         return custom_scope_tag2();
-  //       },
-  //       src3= function(){
-  //         return div.container(
-  //             function() {
-  //               return p(name);
-  //             }
-  //           );
-  //       },
-  //       tmpl= blam.scope(ctx);
-
-  //   expect(tmpl(src)).to.equal('<div class="container"><h1>Bob</h1><p>This old house</p></div>');
-
-  //   expect(tmpl(src2)).to.not.equal('<div class="container">Bob</div>');
-
-  //   expect(tmpl(src3)).to.equal('<div class="container"><p>Bob</p></div>');
-  // })
-
 })

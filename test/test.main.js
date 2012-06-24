@@ -77,6 +77,7 @@ describe('blam()', function(){
       .to.equal('<html><div>Hello</div></html>')
 
   })
+  
   it('should function wrap template strings if needed', function(){
     expect(blam("html(div('Hello'))"))
       .to.equal('<html><div>Hello</div></html>')

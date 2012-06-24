@@ -7,14 +7,6 @@ var global= this;
 
 describe('blam.noConflict()', function(){
   
-  // beforeEach(function(){
-  //   global._blam= blam; //.noConflict()
-  // })
-  
-  // afterEach(function(){
-  //   global.blam= global._blam
-  // })
-
   it('should remove blam from the global scope', function(){
     var b= blam.noConflict()
     
@@ -29,16 +21,21 @@ describe('blam.noConflict()', function(){
 
     global.blam= b;
   })
-  
-  it('returned function should still be usable', function(){
-    var b= blam.noConflict()
-    expect(b).to.be.a.function
-    expect(b(function(){ return html(); }))
-      .to.equal('<html></html>')
-      expect(b.compile(function(){ return html(); }))
-        .to.be.a.function
 
-    global.blam= b;
+  describe('disconnected blam function', function(){
+
+    it('returned function should still be usable', function(){
+      var b= blam.noConflict()
+      expect(b).to.be.a.function
+      expect(b(function(){ return html(); }))
+        .to.equal('<html></html>')
+        expect(b.compile(function(){ return html(); }))
+          .to.be.a.function
+
+      global.blam= b;
+    })
+
   })
+  
 
 })
