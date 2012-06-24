@@ -4,7 +4,7 @@ if(!blam && require){
 }
 
 
-describe('blam()', function(){
+describe('blam() v'+ blam.version, function(){
 
   it('should exist', function(){
     expect(blam).to.not.be.undefined;
