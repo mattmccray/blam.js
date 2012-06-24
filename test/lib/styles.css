@@ -26,6 +26,10 @@ html {
   border-radius: 4px;
 }
 
+#mocha pre {
+  overflow: auto;
+}
+
 body #mocha #stats {
   /*background: rgba(0,0,0,0.5);*/
   background-color: #ccc;
