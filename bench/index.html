@@ -13,20 +13,28 @@
 		<script src="https://raw.github.com/visionmedia/jade/master/jade.js"></script>
 		<style type="text/css" media="screen">
 		html {
-			background: #CCC;
+			/*background: #CCC;*/
+			padding: 25px;
 		}
 		body {
-			font-family: "Helvetica Nueu", Helvetica, Arial, "MS Trebuchet", sans-serif;
-			width:600px;
-			padding: 25px;
+			font: 20px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+			width: 600px;
 			margin: 0 auto;
 			background: #FFF;
-			border-left: 1px solid gray;
-			border-right: 1px solid gray;
+			/*border: 1px solid #eee;
+			border-radius: 4px;*/
 		}
 		.results {
 			color: green;
 			padding-bottom: 10px;
+			font-weight: 200;
+		}
+		h2 {
+			/*font-size: 1em;*/
+			font-size: 1.2em;
+		  font-weight: 200;
+		  margin-top: 0px;
+		  padding-top: 0px;
 		}
 		h2 button{
 			float: right;
@@ -41,18 +49,38 @@
 			color: red;
 		}
 		.benchmark {
-			border-bottom: 1px solid silver;
+			/*border-bottom: 1px solid silver;*/
 			margin-bottom: 25px;
+			font-size: .8em;
+			/*font-size: 12px;*/
+			border-radius: 4px;
+			padding: 10px 25px;
+
+			border: 1px solid #eee;
+			border-bottom-color: #DDD;
+			-webkit-box-shadow: 0 1px 3px #eee;
+			box-shadow: 0 1px 3px #eee;
 		}
+		/*.benchmark:hover {
+			background: #F0F0F0;
+		}*/
 		.benchmark:last-child {
 			border-bottom: none;
 			margin-bottom: 0px;
+		}
+		dl {
+			font-weight: normal;
+			font-size: .8em;
+		}
+		dt {
+
 		}
 		dd {
 			padding-left: 1em;
 			margin-left: 0px;
 			font-family: monospace;
 			color: gray;
+			font-size: 11px
 		}
 		</style>
 		<script>
