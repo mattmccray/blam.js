@@ -11,16 +11,10 @@ describe('blam.fancy()', function(){
   })
 
   it('should update the internals appropriately', function(){
-    // Oh no! Testing internals...
     blam.fancy(true);
-    expect(blam.compile).to.equal(blam._compile_fancy)
     expect(blam.fancy()).to.be.true
-    expect(blam.compile).to.equal(blam._compile_fancy)
-
     blam.fancy(false);
-    expect(blam.compile).to.equal(blam._compile_nonfancy)
     expect(blam.fancy()).to.be.false
-    expect(blam.compile).to.equal(blam._compile_nonfancy)
   })
 
   it('should add css classname for tag.classname', function(){

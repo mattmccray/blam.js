@@ -1,3 +1,6 @@
+# v0.5.3
+- Internal refactoring.
+
 # v0.5.2
 - `h` tag for html escaping content.
 - Nested attributes objects auto-hyphenate.
