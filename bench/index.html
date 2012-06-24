@@ -3,8 +3,12 @@
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>Blam Benchmarks</title>
 		<script src="lib/benchmark.js"></script>
-		<script src="../blam.min.js"></script>
-		<script src="../kablam.js"></script>
+		<script src="lib/kablam.js"></script>
+		<script src="http://darthapo.github.com/blam.js/blam.min.js"></script>
+		<script>
+			var old_blam= blam.noConflict();
+		</script>
+		<script src="../blam.js"></script>
 		<script src="https://raw.github.com/darthapo/settee.js/master/settee.js"></script>
 		<!--<script src="http://underscorejs.org/underscore-min.js"></script>
 		<script src="https://raw.github.com/twitter/hogan.js/master/web/builds/1.0.5/hogan-1.0.5.js"></script>-->

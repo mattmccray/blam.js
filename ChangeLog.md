@@ -1,3 +1,9 @@
+# v0.5.2
+- `h` tag for html escaping content.
+- Nested attributes objects auto-hyphenate.
+- Attribute values are quote escaped.
+- Some code cleanup and optimizations.
+
 # v0.5.1
 - You can now send a string literal as a template.
 - It will auto-wrap string templates in a function block, if necessary.

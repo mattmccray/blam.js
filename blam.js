@@ -1,4 +1,4 @@
-// BLAM! v0.5.1 by Matt McCray (https://github.com/darthapo/blam.js)
+// BLAM! v0.5.2 by Matt McCray (https://github.com/darthapo/blam.js)
 ;(function(global, undef){
   
   var blam= function(){
@@ -8,13 +8,13 @@
     return fn.apply(blam.tags, args);
   };
   
-  blam.version= '0.5.1';
+  blam.version= '0.5.2';
   
   blam.tags= {
     '_': function(){
       var args=slice.call(arguments,0), html = '', i= 0, j=0, l=0, child=null, value=null;
       for(i=0, l=args.length; i< l; i++) {
-        child= args[i], value= (typeof(child) == 'function') ? child() : child;
+        child= args[i], value= (typeof(child) === 'function') ? child() : child;
         if(value) { // Ignore falsy values
           html+= value;
         }
@@ -42,21 +42,29 @@
         }
       }
       return html;
+    },
+    h: function(text) {
+      // Not the most exhaustive, but it's better than nothing.
+      return String(text).replace(char_matcher, function (chr) {
+        return '&#' + chr.charCodeAt(0) + ';';
+      });
     }
   };
 
+  //@ Deprecated: This will probably go away soon...
+  //  Instead use: blam.compile( block, ctx )
   blam.scope= function(ctx){
     if(!ctx) throw 'Context object required to create scope!';
-    var custom_blam= function(){
+    var scoped_blam= function(){
       var args= slice.call(arguments),
           block= args.pop(),
           fn= blam.compile(block, ctx);
       return fn.apply(blam.tags, args);
     };
-    custom_blam.compile= function(block){
+    scoped_blam.compile= function(block){
       return blam.compile(block, ctx);
     };
-    return custom_blam;
+    return scoped_blam;
   };
   
   blam.define= function(tag, callback, compile) {
@@ -120,62 +128,76 @@
         blam.compile= blam._compile_nonfancy;
       }
     }
-    return (blam.compile == blam._compile_fancy);
+    return (blam.compile === blam._compile_fancy);
   };
   
   blam.noConflict = function(){
     global.blam = old_blam;
     return blam;
   };
-  
-  var _build_tag= function(tag, args) {
-    var html= '<', atts= '', child= null, hash= null, key= null, i= 0, l= 0;
-    if(typeof(args[0]) == 'object') {
-      hash= args.shift();
-      for(key in hash) {
-        if(hasOwn.call(hash, key)) {
-          atts += ' '+ key +'="'+ hash[key] +'"';
+
+  var _build_attrs= function(hash, base_name) {
+    var atts= '', key= null, value= null;
+    if(base_name != '') {
+      base_name +=  '-';
+    }
+    for(key in hash) {
+      if(hasOwn.call(hash, key)) {
+        value= hash[key];
+        if(typeof(value) === 'object') {
+          atts += _build_attrs(value, base_name + key);
+        } else {
+          atts += ' '+ base_name + key +'="'+ value.toString().replace(quote_matcher, '&quot;') +'"';
         }
       }
+    }
+    return atts;
+  }
+  
+  var _build_tag= function(tag, args) {
+    var html= '<', atts= '', child= null, i= 0, l= 0;
+    if(typeof(args[0]) === 'object') {
+      atts= _build_attrs(args.shift(), '');
     }
     html += tag + atts +'>';
     for(i=0, l=args.length; i< l; i++) {
       child= args[i];
-      html += (typeof(child) == 'function') ? child() : child;
+      html += (typeof(child) === 'function') ? child() : child;
     }
-    html += '</'+ tag + '>';
-    return html;
+    return html + '</'+ tag + '>';
   };
   
-  var css_matcher= /(\w*)(\.[\.a-zA-Z0-9_\- ]*)*\s*\((\s*\{[^\}]*\})?(\s*\))?/gi,
-      slice= Array.prototype.slice,
+  var slice= Array.prototype.slice,
       old_blam= global.blam || undef,
       hasOwn= Object.prototype.hasOwnProperty,
-      taglist= "a abbr address area article aside audio b base bdi bdo blockquote body br button canvas caption cite code col colgroup command data datalist dd del details dfn div dl dt em embed eventsource fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header hgroup hr html i iframe img input ins kbd keygen label legend li link mark map menu meta meter nav noscript object ol optgroup option output p param pre progress q ruby rp rt s samp script section select small source span strong style sub summary sup table tbody td textarea tfoot th thead time title tr track u ul var video wbr".split(' '), i= 0, l= 0, tag=null;
+      quote_matcher= /"/g,
+      char_matcher= /\W/g,
+      css_matcher= /(\w*)(\.[\.a-zA-Z0-9_\- ]*)*\s*\((\s*\{[^\}]*\})?(\s*\))?/gi,
+      taglist= "a abbr address area article aside audio b base bdi bdo blockquote body br button canvas caption cite code col colgroup command data datalist dd del details dfn div dl dt em embed eventsource fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header hgroup hr html i iframe img input ins kbd keygen label legend li link mark map menu meta meter nav noscript object ol optgroup option output p param pre progress q ruby rp rt s samp script section select small source span strong style sub summary sup table tbody td textarea tfoot th thead time title tr track u ul var video wbr".split(' '), i= 0, l= 0;
   
+  function _tag_closure(tagName, builder){
+    blam.define(tagName, function() { 
+      return builder(tagName, slice.call(arguments,0));
+    }, false);
+  };
+
   for (i=0, l=taglist.length; i < l; i++){
-    tag= taglist[i];
-    blam.define(tag, (function(tag, build){
-      return function() {
-        return build(tag, slice.call(arguments,0));
-      }
-    })(tag, _build_tag), false);
+    _tag_closure(taglist[i], _build_tag);
   };
   
-  taglist= tag= null;
+  taglist= null;
     
   if(global.exports) {
     global.exports.blam= blam;
   } else if(global.define) {
     define(function(){ return blam; });
   } else {
-
     global.blam= blam;
   };
 
   // If this js env correctly supports fancy mode, enable it.
   ("div.it.works()").replace(css_matcher, function(s, t, c, h, e){ 
-    if(t == 'div' && c == ".it.works") {
+    if(t === 'div' && c === ".it.works") {
       blam.fancy(true);
     }
     return s; 

@@ -1,23 +1,26 @@
-benchmark('Blam vs Kablam', function(b){
-	var tmpl= function() {
-					return article(section({ 'class':'main' }, 'content'), aside('sidebar'));
-  			},
-			tmpl_b= blam.compile(tmpl),
-			tmpl_k= kablam.compile(tmpl)
+
+
+
+// benchmark('Blam vs Kablam', function(b){
+// 	var tmpl= function() {
+// 					return article(section({ 'class':'main' }, 'content'), aside('sidebar'));
+//   			},
+// 			tmpl_b= blam.compile(tmpl),
+// 			tmpl_k= kablam.compile(tmpl)
 	
-	b.add('Blam simple', function() {
-		blam(tmpl)
-	})
-	.add('Kablam simple', function() {
-		kablam(tmpl)
-	})
-	.add('Blam compiled', function() {
-		tmpl_b()
-	})
-	.add('Kablam compiled', function() {
-		tmpl_k()
-	})
-})
+// 	b.add('Blam simple', function() {
+// 		blam(tmpl)
+// 	})
+// 	.add('Kablam simple', function() {
+// 		kablam(tmpl)
+// 	})
+// 	.add('Blam compiled', function() {
+// 		tmpl_b()
+// 	})
+// 	.add('Kablam compiled', function() {
+// 		tmpl_k()
+// 	})
+// })
 
 benchmark('Blam vs Blam.fancy()', function(b){
 	var tmplA= function() {
@@ -91,53 +94,53 @@ benchmark('Blam Compilation', function(b){
 	})
 });
 
-benchmark('Blam.fancy() Compilation', function(b){
-	var src_template= function(){
-				return article({ id:'test' },
-					section/* home glass test #more */(
-						p("Content")
-					),
-					aside(
-						ul(
-							li( a( {href:"#"}, "nav items") ),
-							li( a( {href:"#"}, "nav items") )
-						)
-					)
-				);	
-			},
-			compiled_template= blam.compile(src_template);
+// benchmark('Blam.fancy() Compilation', function(b){
+// 	var src_template= function(){
+// 				return article({ id:'test' },
+// 					section/* home glass test #more */(
+// 						p("Content")
+// 					),
+// 					aside(
+// 						ul(
+// 							li( a( {href:"#"}, "nav items") ),
+// 							li( a( {href:"#"}, "nav items") )
+// 						)
+// 					)
+// 				);	
+// 			},
+// 			compiled_template= blam.compile(src_template);
 
-	b.add('Blam plain', function() {
-		blam(src_template)
-	})
-	.add('Blam precompiled', function() {
-		compiled_template()
-	})
-});
+// 	b.add('Blam plain', function() {
+// 		blam(src_template)
+// 	})
+// 	.add('Blam precompiled', function() {
+// 		compiled_template()
+// 	})
+// });
 
-benchmark('Kablam Compilation', function(b){
-	var src_template= function(){
-		return article({ id:'test' },
-			section(
-				p("Content")
-			),
-			aside(
-				ul(
-					li( a( {href:"#"}, "nav items") ),
-					li( a( {href:"#"}, "nav items") )
-				)
-			)
-		);	
-	},
-		compiled_template= kablam.compile(src_template);
+// benchmark('Kablam Compilation', function(b){
+// 	var src_template= function(){
+// 		return article({ id:'test' },
+// 			section(
+// 				p("Content")
+// 			),
+// 			aside(
+// 				ul(
+// 					li( a( {href:"#"}, "nav items") ),
+// 					li( a( {href:"#"}, "nav items") )
+// 				)
+// 			)
+// 		);	
+// 	},
+// 		compiled_template= kablam.compile(src_template);
 
-	b.add('Kablam plain', function() {
-		kablam(src_template)
-	})
-	.add('Kablam precompiled', function() {
-		compiled_template()
-	})
-});
+// 	b.add('Kablam plain', function() {
+// 		kablam(src_template)
+// 	})
+// 	.add('Kablam precompiled', function() {
+// 		compiled_template()
+// 	})
+// });
 
 
 
@@ -192,12 +195,18 @@ benchmark('Blam vs Settee', function(b){
 benchmark('Blam vs Jade', function(b){
 
 	var jt= jade.compile('html\n  head\n    title= name'),
-			bt= blam.compile(function(name){ return html( head( title("Hello ", name)))});
+			bt= blam.compile(function(name){ return html( head( title("Hello ", name)))}),
+			obt= old_blam.compile(function(name){ return html( head( title("Hello ", name)))});
 
 	b.add('blam compiled', function(){
 		bt('Matt');
 	})
-	.add('jade compiled', function(){
+	if(old_blam.version != blam.version) {
+		b.add('old blam compiled', function(){
+			obt('Matt');
+		})
+	}
+	b.add('jade compiled', function(){
 		jt({ name:'Matt' })
 	})
 
@@ -221,3 +230,21 @@ benchmark('Blam vs Jade vs Settee', function(b){
 	})
 
 })
+
+if(old_blam.version != blam.version) {
+	benchmark('Old Blam vs New Blam', function(b){
+		var tmpl= function() {
+						return article(section.main('content'), aside('sidebar'));
+	  			},
+				tmpl_b= blam.compile(tmpl),
+				tmpl_k= old_blam.compile(tmpl);
+		
+		b.add('New Blam', function() {
+			tmpl_b()
+		})
+		.add('Old Blam', function() {
+			tmpl_k()
+		})
+
+	})	
+}
