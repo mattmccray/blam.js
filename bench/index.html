@@ -12,17 +12,47 @@
 		<script src="https://raw.github.com/darthapo/settee.js/master/settee.js"></script>
 		<script src="https://raw.github.com/visionmedia/jade/master/jade.js"></script>
 		<style type="text/css" media="screen">
+		html {
+			background: #CCC;
+		}
 		body {
 			font-family: "Helvetica Nueu", Helvetica, Arial, "MS Trebuchet", sans-serif;
 			width:600px;
+			padding: 25px;
 			margin: 0 auto;
-			padding-top: 50px;
+			background: #FFF;
+			border-left: 1px solid gray;
+			border-right: 1px solid gray;
 		}
 		.results {
 			color: green;
+			padding-bottom: 10px;
+		}
+		h2 button{
+			float: right;
+		}
+		.error h2 {
+			color: maroon !important;
+		}
+		.error .results {
+			color: red;
 		}
 		.results div {
 			color: red;
+		}
+		.benchmark {
+			border-bottom: 1px solid silver;
+			margin-bottom: 25px;
+		}
+		.benchmark:last-child {
+			border-bottom: none;
+			margin-bottom: 0px;
+		}
+		dd {
+			padding-left: 1em;
+			margin-left: 0px;
+			font-family: monospace;
+			color: gray;
 		}
 		</style>
 		<script>
@@ -37,8 +67,16 @@
 								dd({ id:"res_"+ t.id })
 							)
 						}),
-						div({ id:("out"+ bench.id), 'class':'results' }),
-						hr()
+						div({ id:("out"+ bench.id), 'class':'results' })
+					);
+				}),
+				_bench_error_tmpl= kablam.compile(function(bench, ex){
+					return section({ 'class':'benchmark error' },
+						h2(bench.desc),
+						div({ id:("out"+ bench.id), 'class':'results' },
+							h4('Exception:'),
+							pre(ex)
+						)
 					);
 				});
 			
@@ -101,18 +139,26 @@
 					bench.active= false;
 				});
 		
-			if(block) block.call(bench, bench);
+			if(block) {
+				try {
+					block.call(bench, bench);
+					bench.elem= _bench_tmpl(bench)
+				} catch (ex) {
+					bench.elem= _bench_error_tmpl(bench, ex)
+				}
+			}
 			
-			bench.elem= _bench_tmpl(bench)
 
 			document.body.appendChild(bench.elem)
 			
-			document.getElementById('run'+ bench.id).onclick= function(){
-				if(!bench.active) {
-					bench.active= true;
-					bench.suite.run({ 'async': true });
+			var runBtn= document.getElementById('run'+ bench.id);
+			if(runBtn)
+				runBtn.onclick= function(){
+					if(!bench.active) {
+						bench.active= true;
+						bench.suite.run({ 'async': true });
+					}
 				}
-			}
 			
 			
 			return bench;

@@ -1,0 +1,41 @@
+html {
+  background: #CCC;
+}
+
+.other-tests {
+  font-size: 10px;
+  /*float: right;
+  position: fixed;
+  top: 25px;*/
+  padding: 10px;
+  background-color: #ccc;
+  color: #333;
+  text-align: center
+
+}
+.other-tests a {
+  color: gray;
+}
+
+#mocha {
+  width: 600px;
+  margin: 0px auto;
+  background: #FFF;
+  border: 1px solid gray;
+  padding-bottom: 20px;
+  border-radius: 4px;
+}
+
+#mocha pre {
+  overflow: auto;
+}
+
+body #mocha #stats {
+  /*background: rgba(0,0,0,0.5);*/
+  background-color: #ccc;
+  color: #333;
+  border-radius: 12px;
+}
+body #mocha #stats em {
+  color: #000;
+}
