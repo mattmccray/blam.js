@@ -20,6 +20,22 @@ describe('blam()', function(){
       .to.equal('<html><div id="my-div">Hello</div></html>')
   })
 
+  it('should create hyphenated attributes from nested object literals', function(){
+
+    expect(blam(function(){ return html(div({ data:{ role:'button', inset:'true' }}, 'Hello')) }))
+      .to.equal('<html><div data-role="button" data-inset="true">Hello</div></html>')
+
+    expect(blam(function(){ return html(div({ data:{ role:'button', inset:'true', really:{ good:'yes', bad:'no' } }}, 'Hello')) }))
+      .to.equal('<html><div data-role="button" data-inset="true" data-really-good="yes" data-really-bad="no">Hello</div></html>')
+
+  })
+
+  it('should escape doublequotes in  attribute values', function(){
+    expect(blam(function(){ return html(div({ title:'"Mr." Jones'}, 'Hello')) }))
+      .to.equal('<html><div title="&quot;Mr.&quot; Jones">Hello</div></html>')
+  })
+
+
   it('should pass through initial arguments to markup block', function(){
     expect(blam({ name:'Matt' }, function(user){ return html(div('Hello ', user.name)) }))
       .to.equal('<html><div>Hello Matt</div></html>')
@@ -28,7 +44,7 @@ describe('blam()', function(){
       .to.equal('<html><h1>My App</h1><div>Hello Matt</div></html>')
   })
   
-  it('call inline functions when generating html', function(){
+  it('should call inline functions when generating html', function(){
     var template= blam.compile(function(){
       return article({ "class":"container" },
         section(

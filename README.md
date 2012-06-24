@@ -11,7 +11,6 @@ blam(->
     head(
       title( "Hello" )
       script( src:"/my-script.js" )
-      link( rel:"stylesheet", type:"text/css", href:"/my-styles.css" )
     )
     body(
       article( id:"main",
@@ -33,12 +32,12 @@ blam(function(){
     head(
       title( "Hello" ), 
       script({ src: "/my-script.js" }),
-      link({ rel: "stylesheet", type: "text/css", href: "/my-styles.css" })), 
-      body(
-        article({ id: "main" }, 
-          section.content(
-            p("Loading...")
-          ), 
+    ), 
+    body(
+      article({ id: "main" }, 
+        section.content(
+          p("Loading...")
+        ), 
         aside.sidebar( "Nav here")
       )
     )
@@ -167,20 +166,19 @@ You can add a single object to a markup block's scope when pre-compiling templat
 
 ```coffeescript
 data=
-  name: 'Me'
+  name: 'He'
   age: 'Old Enough'
 
 template= blam.scope(data).compile ->
   div( name, " is ", age )
 
 html= template()
-#=> "<div>Me is Old Enough</div>"
+#=> "<div>He is Old Enough</div>"
 ```
 
 ## Backbone Mini Example
 
 ```coffeescript
-
 class TweetView extends Backbone.View
   @template: blam.compile (tweet)->
     div.tweet(
@@ -203,15 +201,20 @@ class TweetView extends Backbone.View
     @$el.html TweetView.template( @model.toJSON() )
 ```
 
+
 ## Node.js
 
 Blam is available as an npm package as well. To install:
 
-```npm install blam```
+```bash
+npm install blam
+```
 
 Or, use the `-g` option to install it globally:
 
-```npm install blam -g```
+```bash
+npm install blam -g
+```
 
 Then `require` it as per usual in node:
 
@@ -232,7 +235,6 @@ blam.compile(function(){ return div("etc...") })
 
 - Extract and expose tag building helpers.
 
-- Dasherize attributes? (dataRole:"page" would expand to 'data-role="page"')
 
 ## Aren't `eval` and `with` Evil?
 
