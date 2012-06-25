@@ -4,12 +4,12 @@
   var VERSION= "0.5.3",
       slice= Array.prototype.slice,
       old_blam= global.blam || undef,
-      hasOwn= Object.prototype.hasOwnProperty,
+      has_own= Object.prototype.has_ownProperty,
       quote_matcher= /"/g,
       char_matcher= /\W/g,
       css_matcher= /(\w*)(\.[\.a-zA-Z0-9_\- ]*)*\s*\((\s*\{[^\}]*\})?(\s*\))?/gi,
       simple_matcher= /(\([a-zA-Z0-9\-_\.]*)/g,
-      taglist= "a abbr address area article aside audio b base bdi bdo blockquote body br button canvas caption cite code col colgroup command data datalist dd del details dfn div dl dt em embed eventsource fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header hgroup hr html i iframe img input ins kbd keygen label legend li link mark map menu meta meter nav noscript object ol optgroup option output p param pre progress q ruby rp rt s samp script section select small source span strong style sub summary sup table tbody td textarea tfoot th thead time title tr track u ul var video wbr".split(' '), i, l;
+      tag_list= "a abbr address area article aside audio b base bdi bdo blockquote body br button canvas caption cite code col colgroup command data datalist dd del details dfn div dl dt em embed eventsource fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header hgroup hr html i iframe img input ins kbd keygen label legend li link mark map menu meta meter nav noscript object ol optgroup option output p param pre progress q ruby rp rt s samp script section select small source span strong style sub summary sup table tbody td textarea tfoot th thead time title tr track u ul var video wbr".split(' '), i, l;
 
 
   var tagset= {
@@ -56,7 +56,7 @@
   //@ Deprecated: This will probably go away soon...
   //  Instead use: blam.compile( block, ctx )
   function set_scope(ctx){
-    if(!ctx) ctx= {}; // Did throw exception...
+    if(!ctx) ctx= {}; // Used to throw an exception...
     var scoped_blam= function(){
       var args= slice.call(arguments), block= args.pop();
       return blam.compile(block, ctx).apply(tagset, args);
@@ -117,11 +117,11 @@
   function compile_fancy(block, scope) {
     var fns= block.toString().replace(css_matcher, function(src, tag_name, classes, hash, empty){
       var result= src.replace(classes, ''), tag_start,
-          classNames= (classes || "").split(' ').join('').split('.').splice(1).join(' ');
+          class_names= (classes || "").split(' ').join('').split('.').splice(1).join(' ');
       if(!tagset[tag_name]) {
         result= src;
-      } else if(classNames !== "") {
-        tag_start= tag_name +'({"class":"'+ classNames +'"';
+      } else if(class_names !== "") {
+        tag_start= tag_name +'({"class":"'+ class_names +'"';
         if(hash) {
           result= tag_start +', '+ result.substring((result.indexOf('{') + 1));
         } else if(empty) {
@@ -141,15 +141,13 @@
       base_name +=  '-';
     }
     for(key in hash) {
-      // if(hasOwn.call(hash, key)) {
-        value= hash[key];
-        type= typeof(value);
-        if(type === 'object') {
-          atts += build_attrs(value, base_name + key);
-        } else if(type !== 'function') {
-          atts += ' '+ base_name + key +'="'+ value.toString().replace(quote_matcher, '&quot;') +'"';
-        }
-      // }
+      value= hash[key];
+      type= typeof(value);
+      if(type === 'object') {
+        atts += build_attrs(value, base_name + key);
+      } else if(type !== 'function') {
+        atts += ' '+ base_name + key +'="'+ String(value).replace(quote_matcher, '&quot;') +'"';
+      }
     }
     return atts;
   };
@@ -164,17 +162,17 @@
     return '<'+ tag + atts +'>'+ html + '</'+ tag + '>';
   };
 
-  function tag_closure(tagName, builder){
-    define_tag(tagName, function() { 
-      return builder(tagName, slice.call(arguments));
+  function tag_closure(tag_name, builder){
+    define_tag(tag_name, function() { 
+      return builder(tag_name, slice.call(arguments));
     }, false);
   };
 
-  for (i=0, l=taglist.length; i < l; i++){
-    tag_closure(taglist[i], build_tag);
+  for (i=0, l=tag_list.length; i < l; i++){
+    tag_closure(tag_list[i], build_tag);
   };
   
-  taglist= null;
+  tag_list= null;
 
   function blam(){
     var args= slice.call(arguments), block= args.pop();
