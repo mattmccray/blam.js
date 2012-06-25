@@ -4,7 +4,6 @@ task :build do
 
   # ASSUMES YOU HAVE UGLIFY-JS INSTALLED, GLOBALLY
   # system("uglifyjs blam.js > blam.min.js")
-  # puts "Built blam.min.js"
 
   require 'packr'
   lines= IO.readlines('blam.js')
@@ -15,6 +14,7 @@ task :build do
                         :base62      => false, 
                         :private     => false)
   end
+  puts "Built blam.min.js"
 
   # system "coffee -c blamc.coffee"
   # lines= IO.readlines('blamc.js')

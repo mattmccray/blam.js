@@ -4,7 +4,6 @@
   var VERSION= "0.5.3",
       slice= Array.prototype.slice,
       old_blam= global.blam || undef,
-      has_own= Object.prototype.has_ownProperty,
       quote_matcher= /"/g,
       char_matcher= /\W/g,
       css_matcher= /(\w*)(\.[\.a-zA-Z0-9_\- ]*)*\s*\((\s*\{[^\}]*\})?(\s*\))?/gi,
