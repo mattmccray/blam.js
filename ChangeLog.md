@@ -1,3 +1,8 @@
+# v0.5.4
+- Fixed potential bug in the attribute value 'cleaning' code.
+- Code cleanup, variable names more consistent.
+- Browser tests prettified a bit.
+
 # v0.5.3
 - Internal refactoring.
 
