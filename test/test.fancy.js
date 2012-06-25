@@ -107,6 +107,24 @@ describe('blam.fancy()', function(){
       expect( blam.simple('(div.test (my_latest_tag "hello")')())
         .to.equal('<div class="test"><span>hello</span></div>')
     })
+
+    it('should have access to scoped data', function(){
+      var data= {
+        name: "Matt"
+      }
+      expect( blam.scope(data).simple('(div.test name')())
+        .to.equal('<div class="test">Matt</div>')
+    })
+
+    it('should not require commas between arguments', function(){
+
+      expect( blam.simple('(div.test (p "Hello") (p "there"))')())
+        .to.equal('<div class="test"><p>Hello</p><p>there</p></div>')
+      
+      expect( blam.simple('(div.test "hello " "friends")')())
+        .to.equal('<div class="test">hello friends</div>')
+
+    })
       
   })
 
