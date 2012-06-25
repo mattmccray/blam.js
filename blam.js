@@ -173,7 +173,11 @@
   };
   
   blam.noConflict = function(){
-    global.blam = old_blam;
+    if(old_blam !== undef) {
+      global.blam = old_blam;  
+    } else {
+      delete global.blam;
+    }
     return blam;
   };
     
