@@ -4,17 +4,31 @@ task :build do
 
   # ASSUMES YOU HAVE UGLIFY-JS INSTALLED, GLOBALLY
   # system("uglifyjs blam.js > blam.min.js")
-
   require 'packr'
+  require 'yui/compressor'
+  require 'fileutils'
+
+  # system('yui compress blam.js')
+
   lines= IO.readlines('blam.js')
+  # FileUtils.rm 'blam.min.js'
+
   File.open 'blam.min.js', 'w' do |f|
     f.write lines[0]
-    f.write Packr.pack( lines.join(''), 
+
+    compressor = YUI::JavaScriptCompressor.new(:munge => true)
+    yui_out= compressor.compress(lines.join(''))
+    
+    f.write Packr.pack( yui_out, 
                         :shrink_vars => true, 
                         :base62      => false, 
                         :private     => false)
   end
   puts "Built blam.min.js"
+
+  
+
+  
 
   # system "coffee -c blamc.coffee"
   # lines= IO.readlines('blamc.js')
