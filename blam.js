@@ -8,6 +8,7 @@
       quote_matcher= /"/g,
       char_matcher= /\W/g,
       css_matcher= /(\w*)(\.[\.a-zA-Z0-9_\- ]*)*\s*\((\s*\{[^\}]*\})?(\s*\))?/gi,
+      simple_matcher= /(\([a-zA-Z0-9\-_\.]*)/g,
       taglist= "a abbr address area article aside audio b base bdi bdo blockquote body br button canvas caption cite code col colgroup command data datalist dd del details dfn div dl dt em embed eventsource fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header hgroup hr html i iframe img input ins kbd keygen label legend li link mark map menu meta meter nav noscript object ol optgroup option output p param pre progress q ruby rp rt s samp script section select small source span strong style sub summary sup table tbody td textarea tfoot th thead time title tr track u ul var video wbr".split(' '), i, l;
 
 
@@ -63,6 +64,9 @@
     scoped_blam.compile= function(block){
       return blam.compile(block, ctx);
     };
+    scoped_blam.simple= function(text){
+      return blam.simple(text, ctx);
+    };
     return scoped_blam;
   };
   
@@ -72,6 +76,24 @@
     }
     tagset[tag]= callback;
   };
+
+  function simple(text, scope) {
+    var oc, cc, diff, fn_body, count;
+    if( (oc=( (text.match(/\(/g) || []).length )) > (cc= ((text.match(/\)/g) || []).length)) ) {
+      // Autobalance trailing parens...
+      diff= oc - cc;
+      count= 0;
+      while(count < diff) {
+        text += ")";
+        count++;
+      }
+    }
+    fn_body= text.replace(simple_matcher, function(src, simple, i, full){
+      return simple.substring(1)+ '(';
+    });
+    // console.log("Transpiled body", fn_body)
+    return blam.compile(fn_body, scope)
+  }
 
   function compile_scope(block, scope) {
     var fn, fns= block.toString(), tags= tagset;
@@ -163,6 +185,7 @@
   blam.compile= compile_scope;
   blam.define= define_tag;
   blam.scope= set_scope;
+  blam.simple= simple;
 
   blam.tags= function(){
     return tagset;

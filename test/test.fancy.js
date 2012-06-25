@@ -76,4 +76,38 @@ describe('blam.fancy()', function(){
     expect(fn()).to.equal('<div class="home" id="main"><p>hello</p><p class="farewell" data-role="exit">goodbye</p><aside class="sidebar"><footer class="foot body">Copyright</footer></aside></div>')
   })
 
+  describe('simple mode (experimental sexp-like)', function(){
+    
+    it('should support fancy syntax', function(){
+      expect( blam.simple('(div.test "hello")')())
+        .to.equal('<div class="test">hello</div>')
+    })
+
+    it('should attribute hashes', function(){
+      expect( blam.simple('(div.test {id:"bob"}, "hello")')())
+        .to.equal('<div class="test" id="bob">hello</div>')
+    })
+
+
+    it('should auto-balance trailing parens', function(){
+      expect( blam.simple('(html(body(div "hello"')())
+        .to.equal("<html><body><div>hello</div></body></html>")
+
+      expect( blam.simple('(html(body(div "hello")')())
+        .to.equal("<html><body><div>hello</div></body></html>")
+
+      expect( blam.simple('(html(body(div "hello"))')())
+        .to.equal("<html><body><div>hello</div></body></html>")
+    })
+
+    it('should have access to custom tags', function(){
+      blam.define('my_latest_tag', function(){
+        return span(__(arguments));
+      });
+      expect( blam.simple('(div.test (my_latest_tag "hello")')())
+        .to.equal('<div class="test"><span>hello</span></div>')
+    })
+      
+  })
+
 })
