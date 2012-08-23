@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/darthapo/blam.js.png)](http://travis-ci.org/darthapo/blam.js)
 blam.js
 =======
 
