@@ -1,23 +1,32 @@
 <!doctype html>
 <html>
   <head>
+    <!-- 
+      This site is built with Gumdrop: https://github.com/darthapo/gumdrop
+        (The source files are under _source)
+    -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Blam.js by darthapo</title>
+    <title>blam.js by darthapo</title>
 
     <link rel="stylesheet" href="stylesheets/highlight/github.css">
     <link rel="stylesheet" href="stylesheets/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="/html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
   </head>
   <body>
     <div class="wrapper">
       <header>
-        <h1 style="display:none;">Blam.js</h1>
+
+        <h1>blam.js</h1>
+
         <p>Templates are just code.</p>
+
         <p><a href="test/index.html">Run the unit tests...</a></p>
+
+
         <p class="view"><a href="https://github.com/darthapo/blam.js">View the Project on GitHub <small>darthapo/blam.js</small></a></p>
         <ul>
           <li><a href="https://github.com/darthapo/blam.js/zipball/master">Download <strong>ZIP File</strong></a></li>
@@ -27,76 +36,77 @@
       </header>
       <section>
 <!-- Content -->
-<h1>blam.js</h1>
+      <h1 id="blamjs">blam.js</h1>
 
 <p><strong>Simple, Tiny, Fast</strong> (enough)</p>
 
 <p>Example usage (in CoffeeScript):</p>
 
-<pre><code class="coffeescript">blam(-&gt;
+<pre class="coffeescript"><code>blam(-&gt;
   html(
     head(
-      title( &quot;Hello&quot; )
-      script( src:&quot;/my-script.js&quot; )
-      link( rel:&quot;stylesheet&quot;, type:&quot;text/css&quot;, href:&quot;/my-styles.css&quot; )
+      title( "Hello" )
+      script( src:"/my-script.js" )
     )
     body(
-      article( id:&quot;main&quot;,
+      article( id:"main",
         section.content(
-          p(&quot;Loading...&quot;)
+          p("Loading...")
         )
-        aside.sidebar( &quot;Nav here&quot; )
+        aside.sidebar( "Nav here" )
       )
     )
   )
-)</code></pre>
+)
+</code></pre>
 
-<p>You can use it in JavaScript too (but it&#8217;s much prettier in CoffeeScript):</p>
+<p>You can use it in JavaScript too (but it's much prettier in CoffeeScript):</p>
 
-<pre><code class="javascript">blam(function(){
+<pre class="javascript"><code>blam(function(){
   return html(
     head(
-      title( &quot;Hello&quot; ), 
-      script({ src: &quot;/my-script.js&quot; }),
-      link({ rel: &quot;stylesheet&quot;, type: &quot;text/css&quot;, href: &quot;/my-styles.css&quot; })), 
-      body(
-        article({ id: &quot;main&quot; }, 
-          section.content(
-            p(&quot;Loading...&quot;)
-          ), 
-        aside.sidebar( &quot;Nav here&quot;)
+      title( "Hello" ), 
+      script({ src: "/my-script.js" }),
+    ), 
+    body(
+      article({ id: "main" }, 
+        section.content(
+          p("Loading...")
+        ), 
+        aside.sidebar( "Nav here")
       )
     )
   )
-});</code></pre>
+});
+</code></pre>
+<p>If you like, you can compile string templates as well (you'll need to use the javascript syntax):</p>
 
-<p>If you like, you can compile string templates as well (you&#8217;ll need to use the javascript syntax):</p>
-
-<pre><code class="html">&lt;script type=&quot;text/blam&quot; id=&quot;my_template&quot;&gt;
+<pre class="html"><code>&lt;script type="text/blam" id="my_template"&gt;
 article.container(
   section.main(
-    p(&quot;Hello!&quot;)
+    p("Hello!")
   ),
   aside.sidebar(
     ul(
-      li(&quot;Navigation, mayhaps?&quot;)
+      li("Navigation, mayhaps?")
     )
   )
 )
 &lt;/script&gt;
 &lt;script&gt;
-var template_string= document.getElementById(&apos;my_template&apos;);
+var template_string= document.getElementById('my_template');
 // Render it...
 var html= blam( template_string );
 
-// Or if you&apos;re gonna reuse the template, you should probably compile it:
+// Or if you're gonna reuse the template, you should probably compile it:
 var template= blam.compile( template_string );
 
 // then however many times you want
 var html= template();
-&lt;/script&gt;</code></pre>
+&lt;/script&gt;
+</code></pre>
 
-<h2>Notes</h2>
+<h2 id="notes">Notes</h2>
 
 <p>Clocks in at ~1K minified and gzipped.</p>
 
@@ -108,85 +118,92 @@ var html= template();
 
 <p>If the first argument to a tag block is an object literal then its key/value pairs are used as tag attributes.</p>
 
-<pre><code class="coffeescript">blam -&gt;
-  div( id:&quot;posts&quot;, &apos;data-role&apos;:&quot;post&quot;,
-    p(&quot;content here...&quot;)
+<pre class="coffeescript"><code>blam -&gt;
+  div( id:"posts", 'data-role':"post",
+    p("content here...")
   )
-# =&gt; &apos;&lt;div id=&quot;posts&quot; data-role=&quot;post&quot;&gt;&lt;p&gt;content here...&lt;/p&gt;&lt;/div&gt;&apos;</code></pre>
+# =&gt; '&lt;div id="posts" data-role="post"&gt;&lt;p&gt;content here...&lt;/p&gt;&lt;/div&gt;'
+</code></pre>
 
 <p>Blam will pass initial arguments on to the markup block:</p>
 
-<pre><code class="coffeescript">blam name:&apos;Matt&apos;, (user)-&gt;
-  div( id:&apos;user-block&apos;,
-    p(&quot;Hello &quot;, user.name)
-  )</code></pre>
+<pre class="coffeescript"><code>blam name:'Matt', (user)-&gt;
+  div( id:'user-block',
+    p("Hello ", user.name)
+  )
+</code></pre>
 
-<p>Markup blocks can be &#8220;compiled&#8221; into an executable function (good for often repeated bits of code):</p>
+<p>Markup blocks can be &quot;compiled&quot; into an executable function (good for often repeated bits of code):</p>
 
-<pre><code class="coffeescript">template= blam.compile (user)-&gt;
-  div( id:&apos;user-block&apos;,
-    p(&quot;Hello &quot;, user.name)
+<pre class="coffeescript"><code>template= blam.compile (user)-&gt;
+  div( id:'user-block',
+    p("Hello ", user.name)
   )
 
-html+= template(user) for user in all_users</code></pre>
+html+= template(user) for user in all_users
+</code></pre>
 
 <p>For array elements you can use the <code>each</code> tag:</p>
 
-<pre><code class="coffeescript">template= blam.compile (users)-&gt;
-  div( id:&apos;user-block&apos;,
+<pre class="coffeescript"><code>template= blam.compile (users)-&gt;
+  div( id:'user-block',
     each(users, (user)-&gt;
-      p(&quot;Hello &quot;, user.name)
+      p("Hello ", user.name)
     )
   )
 
-html+= template(all_users)</code></pre>
+html+= template(all_users)
+</code></pre>
 
 <p>You can create partials/custom tags:</p>
 
-<pre><code class="coffeescript">blam.define &apos;layout&apos;, -&gt;
+<pre class="coffeescript"><code>blam.define 'layout', -&gt;
   article.container(
-    header( h1( &quot;My App&quot; ) )
+    header( h1( "My App" ) )
     section.body( __(arguments) )
-    footer( p(&quot;&amp;copy; me!&quot;) )
-  )</code></pre>
+    footer( p("&amp;copy; me!") )
+  )
+</code></pre>
 
 <p>You can then use it like a tag:</p>
 
-<pre><code class="coffeescript">blam @posts, (posts)-&gt;
+<pre class="coffeescript"><code>blam @posts, (posts)-&gt;
   layout(
     div.posts(
       each(posts, (post)-&gt;
         div.entry( post.body )
       )
     )
-  )</code></pre>
+  )
+</code></pre>
 
 <p>You can turn off the fancy auto css class support:</p>
 
-<pre><code class="coffeescript">blam.fancy(no)
+<pre class="coffeescript"><code>blam.fancy(no)
 
 # You have to use the attributes hash to add classnames now:
 blam -&gt;
-  div( class:&apos;my-class&apos;, &quot;Content&quot;)</code></pre>
+  div( class:'my-class', "Content")
+</code></pre>
 
-<h2>Scopes</h2>
+<h2 id="scopes">Scopes</h2>
 
-<p>You can add a single object to a markup block&#8217;s scope when pre-compiling templates:</p>
+<p>You can add a single object to a markup block's scope when pre-compiling templates:</p>
 
-<pre><code class="coffeescript">data=
-  name: &apos;Me&apos;
-  age: &apos;Old Enough&apos;
+<pre class="coffeescript"><code>data=
+  name: 'He'
+  age: 'Old Enough'
 
 template= blam.scope(data).compile -&gt;
-  div( name, &quot; is &quot;, age )
+  div( name, " is ", age )
 
 html= template()
-#=&gt; &quot;&lt;div&gt;Me is Old Enough&lt;/div&gt;&quot;</code></pre>
+#=&gt; "&lt;div&gt;He is Old Enough&lt;/div&gt;"
+</code></pre>
 
-<h2>Backbone Mini Example</h2>
+<h2 id="backbone-mini-example">Backbone Mini Example</h2>
 
-<pre><code class="coffeescript">
-class TweetView extends Backbone.View
+<pre class="coffeescript"><code>class TweetView extends Backbone.View
   @template: blam.compile (tweet)-&gt;
     div.tweet(
       img.avatar( 
@@ -197,52 +214,64 @@ class TweetView extends Backbone.View
         tweet.status
       )
       div.footer(
-        &quot;@&quot;
+        "@"
         tweet.from_user
-        &quot; said on &quot;
+        " said on "
         tweet.created_at
       )
     )
 
   render: -&gt;
-    @$el.html TweetView.template( @model.toJSON() )</code></pre>
+    @$el.html TweetView.template( @model.toJSON() )
+</code></pre>
 
-<h2>Node.js</h2>
+<h2 id="nodejs">Node.js</h2>
 
 <p>Blam is available as an npm package as well. To install:</p>
 
-<p><code>npm install blam</code></p>
+<pre class="bash"><code>npm install blam
+</code></pre>
 
 <p>Or, use the <code>-g</code> option to install it globally:</p>
 
-<p><code>npm install blam -g</code></p>
+<pre class="bash"><code>npm install blam -g
+</code></pre>
 
 <p>Then <code>require</code> it as per usual in node:</p>
 
-<pre><code class="javascript">var blam= require(&apos;blam&apos;).blam;
+<pre class="javascript"><code>var blam= require('blam').blam;
 
-blam.compile(function(){ return div(&quot;etc...&quot;) })</code></pre>
+blam.compile(function(){ return div("etc...") })
+</code></pre>
 
-<h2>Todo</h2>
+<h2 id="todo">Todo</h2>
 
 <ul>
-<li><p>Need to cleanup this ReadMe and create some proper docs.</p></li>
-<li><p>Would like to support all the modern browsers and possibly as far back as IE8?</p></li>
-<li><p>Need to test AMD support.</p></li>
-<li><p>Extract and expose tag building helpers.</p></li>
-<li><p>Dasherize attributes? (dataRole:&#8220;page&#8221; would expand to &#8216;data-role=&#8220;page&#8221;&#8217;)</p></li>
+  <li>
+    <p>Need to cleanup this ReadMe and create some proper docs.</p>
+  </li>
+  <li>
+    <p>Would like to support all the modern browsers and possibly as far back as IE8?</p>
+  </li>
+  <li>
+    <p>Need to test AMD support.</p>
+  </li>
+  <li>
+    <p>Extract and expose tag building helpers.</p>
+  </li>
 </ul>
 
-<h2>Aren&#8217;t <code>eval</code> and <code>with</code> Evil?</h2>
+<h2 id="arent-eval-and-with-evil">Aren't <code>eval</code> and <code>with</code> Evil?</h2>
 
-<p><strong>No!</strong> They&#8217;re just <em>misunderstood</em>. Blam.js is a good example of why they are useful as language features. They allow excellent DSL generation.</p>
+<p><strong>No!</strong> They're just <em>misunderstood</em>. Blam.js is a good example of why they are useful as language features. They allow excellent DSL generation.</p>
 
-<p>That having been said, it <em>is</em> a good rule of thumb that if you don&#8217;t know when is best to use them; don&#8217;t.</p>
+<p>That having been said, it <em>is</em> a good rule of thumb that if you don't know when is best to use them; don't.</p>
+
 <!-- /Content -->
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/darthapo">darthapo</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+        <p><small>Hosted on GitHub Pages <br> Theme by <a href="https://github.com/orderedlist">orderedlist</a> <br> Site built with <a href="https://github.com/darthapo/gumdrop">Gumdrop v0.7.5</a></small></p>
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
