@@ -14,7 +14,11 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "chai": "~1.0.4"
+    "chai": "*",
+    "mocha": "*"
   },
-  "optionalDependencies": {}
+  "optionalDependencies": {},  
+  "scripts": {
+    "test": "mocha test/test.*"
+  }
 }
