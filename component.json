@@ -1,0 +1,11 @@
+{
+  "name": "blam",
+  "version": "0.5.4",
+  "main": "./blam.min.js",
+  "dependencies": {},
+  "ignore": [
+    "test/",
+    "bench/",
+    "Rakefile"
+  ]
+}
